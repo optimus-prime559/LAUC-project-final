@@ -189,60 +189,90 @@ canvas{
 <script>
 let tempChart, timeChart;
 
-function drawPipeDiagram(r1, r2){
-    const c = document.getElementById("pipeCanvas");
-    const ctx = c.getContext("2d");
-    ctx.clearRect(0,0,c.width,c.height);
+let pipeData = {};
 
-    const cx = c.width / 2;
-    const cy = c.height / 2;
+function drawPipeDiagram(r1, r2){
+    const canvas = document.getElementById("pipeCanvas");
+    const ctx = canvas.getContext("2d");
+    const tooltip = document.getElementById("tooltip");
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    const cx = canvas.width/2;
+    const cy = canvas.height/2;
 
     const scale = 140 / r2;
     const R1 = r1 * scale;
     const R2 = r2 * scale;
 
-    /* ---- PIPE GRADIENT ---- */
-    const grad = ctx.createRadialGradient(cx, cy, R1, cx, cy, R2);
-    grad.addColorStop(0, "#ff5722");   // hot inner
-    grad.addColorStop(1, "#ffffff");  // cooler outer
+    pipeData = { cx, cy, R1, R2, r1, r2 };
+
+    // Gradient
+    const grad = ctx.createRadialGradient(cx,cy,R1,cx,cy,R2);
+    grad.addColorStop(0,"#ff5722");
+    grad.addColorStop(1,"#ffffff");
 
     ctx.beginPath();
-    ctx.arc(cx, cy, R2, 0, 2*Math.PI);
+    ctx.arc(cx,cy,R2,0,2*Math.PI);
     ctx.fillStyle = grad;
     ctx.fill();
 
     ctx.beginPath();
-    ctx.arc(cx, cy, R1, 0, 2*Math.PI);
-    ctx.fillStyle = "#ffffff";
+    ctx.arc(cx,cy,R1,0,2*Math.PI);
+    ctx.fillStyle = "#fff";
     ctx.fill();
 
     ctx.strokeStyle = "#333";
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    /* ---- DIMENSION LINES ---- */
+    // Radius lines
     ctx.strokeStyle = "#000";
-    ctx.lineWidth = 2;
-
-    // r1 line
     ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + R1, cy);
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+R1,cy);
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+R2,cy);
     ctx.stroke();
 
-    // r2 line
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + R2, cy);
-    ctx.stroke();
-
-    /* ---- LABELS ---- */
-    ctx.fillStyle = "#000";
+    // Labels
     ctx.font = "14px Arial";
+    ctx.fillStyle = "#000";
+    ctx.fillText(`r₁ = ${r1.toFixed(3)} m`, cx+R1/2-20, cy-8);
+    ctx.fillText(`r₂ = ${r2.toFixed(3)} m`, cx+R2/2-20, cy+18);
 
-    ctx.fillText(`r₁ = ${r1.toFixed(3)} m`, cx + R1/2 - 20, cy - 8);
-    ctx.fillText(`r₂ = ${r2.toFixed(3)} m`, cx + R2/2 - 20, cy + 18);
+    // Hover interaction
+    canvas.onmousemove = (e)=>{
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const d = Math.sqrt((x-cx)**2 + (y-cy)**2);
+
+        if(d < R1){
+            showTooltip(e, "Inner Radius r₁ (Hot Surface)");
+        }
+        else if(d < R2){
+            showTooltip(e, "Outer Radius r₂ (Cool Surface)");
+        }
+        else{
+            tooltip.style.display = "none";
+        }
+    };
+
+    canvas.onmouseleave = ()=>{
+        tooltip.style.display = "none";
+    };
 }
+
+function showTooltip(e, text){
+    const tooltip = document.getElementById("tooltip");
+    tooltip.innerHTML = text;
+    tooltip.style.display = "block";
+    tooltip.style.left = e.pageX + 10 + "px";
+    tooltip.style.top = e.pageY + 10 + "px";
+}
+
 
 
 function calculate(){
