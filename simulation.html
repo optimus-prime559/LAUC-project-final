@@ -6,7 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
+    ["r1","r2","r1unit","r2unit"].forEach(id=>{
+    document.getElementById(id).addEventListener("input", calculate);
+});
+
+</script>
 
 <style>
 :root{
