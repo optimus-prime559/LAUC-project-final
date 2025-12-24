@@ -1,48 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Contributors – Virtual Lab</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Contributors – Heat Conduction Virtual Lab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Temporary inline CSS (will be common later) -->
-    <style>
-        body{
-            margin:0;
-            font-family:Arial, sans-serif;
-            background:#f4f8fc;
-        }
-        header{
-            background:#0b5ed7;
-            color:white;
-            padding:16px;
-        }
-        header a{
-            color:white;
-            text-decoration:none;
-            font-size:14px;
-        }
-        .container{
-            padding:20px;
-        }
-        h1{
-            margin-top:0;
-        }
-        .box{
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 6px 14px rgba(0,0,0,0.15);
-        }
-        ul{
-            line-height:1.8;
-        }
-        .note{
-            margin-top:15px;
-            font-size:14px;
-            color:#555;
-        }
-    </style>
+<style>
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f4f8ff;
+    color:#1f2937;
+}
+
+/* HEADER */
+header{
+    background:#1e3a8a;
+    color:white;
+    padding:14px 20px;
+}
+header h1{
+    margin:0;
+    font-size:22px;
+}
+nav a{
+    color:white;
+    margin-right:18px;
+    text-decoration:none;
+    font-weight:600;
+}
+nav a:hover{
+    text-decoration:underline;
+}
+
+/* CONTAINER */
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+/* SECTION TITLE */
+.section-title{
+    font-size:22px;
+    font-weight:bold;
+    color:#1e3a8a;
+    border-bottom:2px solid #2563eb;
+    padding-bottom:6px;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.12);
+    margin-bottom:30px;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+/* MEMBER CARD */
+.member{
+    background:#eef5ff;
+    padding:18px;
+    border-radius:12px;
+    text-align:center;
+}
+.member h3{
+    margin:10px 0 6px;
+    color:#1e3a8a;
+}
+.member p{
+    font-size:14px;
+    margin:4px 0;
+}
+
+/* ICON */
+.icon{
+    width:70px;
+    height:70px;
+    margin:auto;
+    border-radius:50%;
+    background:#3b82f6;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+/* CONTRIBUTION BOX */
+.contribution{
+    background:#eef5ff;
+    border-left:5px solid #3b82f6;
+    padding:18px;
+    border-radius:12px;
+    font-size:15px;
+}
+.contribution b{
+    color:#1e3a8a;
+}
+</style>
 </head>
 
 <body>
@@ -50,31 +119,95 @@
 <header>
     <h1>Virtual Lab: Heat Conduction</h1>
     <nav>
-        <a href="home.html">Home</a>
+        <a href="index.html">Home</a>
         <a href="aim.html">Aim</a>
         <a href="theory.html">Theory</a>
-        <a href="index.html">Simulation</a>
+        <a href="simulation.html">Simulation</a>
+        <a href="contributors.html">Contributors</a>
     </nav>
 </header>
 
-
 <div class="container">
-    <div class="box">
 
-        <ul>
-            <li><b>Student 1:</b> Your Name</li>
-            <li><b>Student 2:</b> Team Member Name</li>
-            <li><b>Student 3:</b> Team Member Name</li>
-            <li><b>Student 4:</b> Team Member Name</li>
-            <li><b>Guide:</b> Faculty / Mentor Name</li>
-        </ul>
+<!-- MENTOR FIRST -->
+<div class="section-title">👨‍🏫 Mentor Guidance</div>
 
-        <p class="note">
-            This virtual laboratory experiment was developed as part of
-            an academic project under the guidance of the faculty.
+<div class="card">
+    <div class="member" style="max-width:360px;">
+        <div class="icon">🎓</div>
+        <h3>Prof. Dinesh Kute</h3>
+        <p><b>Project Mentor & Faculty Guide</b></p>
+        <p>Department of Information Technology</p>
+        <p style="font-size:14px; margin-top:10px;">
+            Specialized in Web Technologies, Software Engineering, and
+            Educational Technology. Provided invaluable guidance on
+            project planning, technical implementation, and educational
+            pedagogy throughout the development process.
         </p>
-
     </div>
+</div>
+
+<!-- CONTRIBUTORS -->
+<div class="section-title">👥 Contributors</div>
+
+<p>
+This virtual laboratory was developed by a dedicated team of students
+from the Department of Information Technology under the guidance of our
+esteemed mentor. Each team member contributed their unique skills and
+expertise to create this comprehensive educational resource.
+</p>
+
+<div class="section-title" style="font-size:18px;">Development Team</div>
+
+<div class="grid">
+
+<div class="member">
+    <div class="icon">👨‍💻</div>
+    <h3>Jaydeep</h3>
+    <p><b>Team Lead & Backend Developer</b></p>
+    <p>JavaScript, Python, Database Design, API Development</p>
+</div>
+
+<div class="member">
+    <div class="icon">💻</div>
+    <h3>Vedika Maramwar</h3>
+    <p><b>Frontend Developer & UI Designer</b></p>
+    <p>HTML5, CSS3, JavaScript, Responsive Design, UI/UX</p>
+</div>
+
+<div class="member">
+    <div class="icon">🎨</div>
+    <h3>Sanika Shinde</h3>
+    <p><b>Content Developer & Graphic Designer</b></p>
+    <p>Content Writing, SVG Graphics, Documentation, Visual Design</p>
+</div>
+
+<div class="member">
+    <div class="icon">📊</div>
+    <h3>Niyati Jadhav</h3>
+    <p><b>Testing & Quality Assurance</b></p>
+    <p>Testing, Debugging, Performance Optimization, User Experience</p>
+</div>
+
+</div>
+
+<!-- TEAM CONTRIBUTIONS -->
+<div class="section-title" style="font-size:18px; margin-top:30px;">
+📌 Team Contributions
+</div>
+
+<div class="contribution">
+<p><b>Jaydeep:</b> Led the project, developed backend logic, implemented assessment systems, and coordinated team efforts.</p>
+<p><b>Vedika Maramwar:</b> Designed responsive UI/UX, implemented interactive elements, and ensured cross-browser compatibility.</p>
+<p><b>Sanika Shinde:</b> Developed educational content, created visual diagrams and illustrations, and wrote technical explanations.</p>
+<p><b>Niyati Jadhav:</b> Conducted thorough testing, implemented feedback systems, and optimized performance.</p>
+
+<p style="margin-top:10px;">
+<b>Project Duration:</b> 3 Months<br>
+<b>Technologies Used:</b> HTML5, CSS3, JavaScript, SVG, Chart.js
+</p>
+</div>
+
 </div>
 
 </body>
