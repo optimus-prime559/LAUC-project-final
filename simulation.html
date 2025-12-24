@@ -8,14 +8,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-/* ---------- BODY ---------- */
 body{
     margin:0;
     font-family:Arial, sans-serif;
     background:linear-gradient(135deg,#c9f7f5,#e6fffa);
 }
 
-/* ---------- HEADER ---------- */
 header{
     background:#06b6d4;
     color:white;
@@ -23,7 +21,6 @@ header{
     text-align:center;
 }
 
-/* ---------- LAYOUT ---------- */
 .container{
     display:grid;
     grid-template-columns:1fr 1.5fr 1.5fr;
@@ -31,38 +28,32 @@ header{
     padding:16px;
 }
 
-/* ---------- GLASS PANELS ---------- */
 .panel{
     background:rgba(255,255,255,0.45);
     backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
     padding:16px;
     border-radius:16px;
     box-shadow:0 10px 25px rgba(0,0,0,0.25);
     transition:transform 0.4s ease, opacity 0.4s ease;
 }
 
-/* slide animation */
 .panel.animate{
     transform:translateY(15px);
     opacity:0;
 }
 
-/* ---------- HEADINGS ---------- */
 h3{
     margin-top:0;
     border-bottom:2px solid #ddd;
     padding-bottom:6px;
 }
 
-/* ---------- INPUTS ---------- */
 input, select{
     width:100%;
     padding:8px;
     margin:6px 0;
 }
 
-/* ---------- BUTTON ---------- */
 button{
     width:100%;
     padding:10px;
@@ -74,21 +65,18 @@ button{
     border-radius:8px;
 }
 
-/* ---------- RESULT ---------- */
 .result{
     background:rgba(255,255,255,0.7);
     padding:12px;
     border-left:5px solid #06b6d4;
 }
 
-/* ---------- CANVAS ---------- */
 canvas{
     background:white;
     margin-top:10px;
     border-radius:10px;
 }
 
-/* ---------- TEXT ---------- */
 .small{
     font-size:13px;
     color:#333;
@@ -185,18 +173,15 @@ function drawPipe(r1,r2,rq){
     const R2=r2*scale;
     const RQ=rq*scale;
 
-    // Gradient
     const grad=ctx.createRadialGradient(cx,cy,R1,cx,cy,R2);
     grad.addColorStop(0,"#ff5722");
     grad.addColorStop(1,"#ffffff");
 
-    // Outer
     ctx.beginPath();
     ctx.arc(cx,cy,R2,0,2*Math.PI);
     ctx.fillStyle=grad;
     ctx.fill();
 
-    // Inner
     ctx.beginPath();
     ctx.arc(cx,cy,R1,0,2*Math.PI);
     ctx.fillStyle="#fff";
@@ -205,7 +190,6 @@ function drawPipe(r1,r2,rq){
     ctx.strokeStyle="#000";
     ctx.stroke();
 
-    // Radius lines
     ctx.beginPath();
     ctx.moveTo(cx,cy);
     ctx.lineTo(cx+R1,cy);
@@ -213,13 +197,12 @@ function drawPipe(r1,r2,rq){
     ctx.lineTo(cx+R2,cy);
     ctx.stroke();
 
-    // Labels
+    /* ✅ USER RADIUS LABELS */
     ctx.fillStyle="#000";
     ctx.font="14px Arial";
-    ctx.fillText("r₁",cx+R1/2-5,cy-5);
-    ctx.fillText("r₂",cx+R2/2-5,cy+15);
+    ctx.fillText("r = " + r1.toFixed(3) + " m", cx+R1/2-30, cy-5);
+    ctx.fillText("r = " + r2.toFixed(3) + " m", cx+R2/2-30, cy+15);
 
-    // Selected radius
     ctx.setLineDash([6,4]);
     ctx.beginPath();
     ctx.arc(cx,cy,RQ,0,2*Math.PI);
@@ -252,7 +235,7 @@ function calculate(){
     const unit=document.getElementById("unit").value;
 
     if(rq<r1||rq>r2){
-        document.getElementById("results").innerHTML="<b style='color:red'>Radius must be between r₁ and r₂</b>";
+        document.getElementById("results").innerHTML="<b style='color:red'>Radius must be between inner and outer radius</b>";
         return;
     }
 
