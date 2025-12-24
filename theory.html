@@ -1,49 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Theory – Virtual Lab</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Theory – Heat Conduction</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Temporary inline CSS (later we move to common style.css) -->
-    <style>
-        body{
-            margin:0;
-            font-family:Arial, sans-serif;
-            background:#f4f8fc;
-        }
-        header{
-            background:#0b5ed7;
-            color:white;
-            padding:16px;
-        }
-        header a{
-            color:white;
-            text-decoration:none;
-            font-size:14px;
-        }
-        .container{
-            padding:20px;
-        }
-        h1{
-            margin-top:0;
-        }
-        .box{
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 6px 14px rgba(0,0,0,0.15);
-            line-height:1.6;
-        }
-        .formula{
-            background:#eef4ff;
-            padding:12px;
-            border-radius:8px;
-            margin:15px 0;
-            font-weight:bold;
-            text-align:center;
-        }
-    </style>
+<style>
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f7fbff;
+    color:#1f2937;
+}
+
+/* HEADER */
+header{
+    background:#1e3a8a;
+    color:white;
+    padding:14px 20px;
+}
+header h1{
+    margin:0;
+    font-size:22px;
+}
+nav a{
+    color:white;
+    margin-right:18px;
+    text-decoration:none;
+    font-weight:600;
+}
+nav a:hover{
+    text-decoration:underline;
+}
+
+/* CONTAINER */
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+/* SECTION TITLE */
+.section-title{
+    font-size:22px;
+    font-weight:bold;
+    color:#1e3a8a;
+    border-bottom:2px solid #2563eb;
+    padding-bottom:6px;
+    margin-bottom:20px;
+}
+
+/* TEXT */
+p{
+    font-size:15px;
+    line-height:1.6;
+}
+
+/* FORMULA BOX */
+.formula-box{
+    background:#0f2a6d;
+    color:white;
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+    margin:25px 0;
+    font-size:22px;
+}
+
+/* INFO BOXES */
+.info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+    margin-top:20px;
+}
+.info-box{
+    background:#eef5ff;
+    border-left:5px solid #3b82f6;
+    padding:20px;
+    border-radius:10px;
+}
+.info-box h3{
+    margin-top:0;
+    color:#1e3a8a;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    background:white;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+th, td{
+    padding:14px;
+    text-align:left;
+}
+th{
+    background:#1e3a8a;
+    color:white;
+}
+tr:nth-child(even){
+    background:#f1f5f9;
+}
+
+/* SAMPLE PROBLEM */
+.sample{
+    background:#f0f7ff;
+    border-left:5px solid #3b82f6;
+    padding:20px;
+    border-radius:12px;
+    margin-top:25px;
+}
+.sample h3{
+    margin-top:0;
+    color:#1e3a8a;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -51,59 +132,150 @@
 <header>
     <h1>Virtual Lab: Heat Conduction</h1>
     <nav>
-        <a href="home.html">Home</a>
+        <a href="index.html">Home</a>
         <a href="aim.html">Aim</a>
         <a href="theory.html">Theory</a>
-        <a href="index.html">Simulation</a>
+        <a href="simulation.html">Simulation</a>
     </nav>
 </header>
 
-
 <div class="container">
-    <div class="box">
 
+<div class="section-title">Theory</div>
+
+<p>
+Heat conduction is the transfer of thermal energy through a material without
+any motion of the material as a whole. It occurs due to temperature gradients
+within solids, liquids, or gases. Fourier’s Law provides the fundamental
+relationship governing heat conduction in different geometries.
+</p>
+
+<!-- PLANE WALL -->
+<h3>Fourier’s Law for Plane Walls</h3>
+
+<div class="formula-box">
+Q = −kA (dT / dx)
+<br><br>
+<span style="font-size:15px;">
+The rate of heat transfer through a plane wall is proportional to the negative
+temperature gradient and the area normal to heat flow.
+</span>
+</div>
+
+<!-- CYLINDRICAL -->
+<h3>Heat Conduction Through Cylindrical Pipes</h3>
+
+<p>
+For a long cylindrical pipe with inner radius <b>r₁</b>, outer radius <b>r₂</b>,
+length <b>L</b>, and constant thermal conductivity <b>k</b>, the heat transfer
+rate under steady-state conditions is given by:
+</p>
+
+<div class="formula-box">
+Q = [2πkL (T₁ − T₂)] / ln(r₂ / r₁)
+<br><br>
+<span style="font-size:15px;">
+T₁ is the temperature at inner radius r₁ and T₂ is the temperature at outer radius r₂
+</span>
+</div>
+
+<p>
+In cylindrical coordinates, heat flows radially from the inner surface to the
+outer surface (or vice versa). The temperature distribution in cylindrical
+systems is logarithmic due to the variation of heat transfer area with radius.
+</p>
+
+<!-- RADIAL FORM -->
+<div class="formula-box">
+Q = −kA<sub>r</sub> (dT / dr)
+<br><br>
+<span style="font-size:15px;">
+For cylindrical coordinates, A<sub>r</sub> = 2πrL
+</span>
+</div>
+
+<!-- INFO BOXES -->
+<div class="info-grid">
+    <div class="info-box">
+        <h3>Heat Conduction in Plane Walls</h3>
         <p>
-            Heat conduction is the mode of heat transfer in which energy
-            is transferred from a region of higher temperature to a region
-            of lower temperature due to molecular interaction within a body.
+        In plane walls, heat flows in a straight line perpendicular to the surface.
+        The temperature distribution is linear under steady-state conditions with
+        constant thermal conductivity. This geometry is commonly encountered in
+        building walls, flat plates, and slabs.
         </p>
-
-        <p>
-            Fourier’s law of heat conduction states that the rate of heat flow
-            through a material is directly proportional to the area normal to
-            the direction of heat flow and the temperature gradient, and
-            inversely proportional to the thickness of the material.
-        </p>
-
-        <div class="formula">
-            Q = −k A (dT / dx)
-        </div>
-
-        <p>
-            For steady-state heat conduction through a cylindrical pipe,
-            the heat flow rate is given by:
-        </p>
-
-        <div class="formula">
-            Q = 2πkL (T₁ − T₂) / ln(r₂ / r₁)
-        </div>
-
-        <p>
-            where:<br>
-            k = thermal conductivity of the material (W/m·K)<br>
-            L = length of the pipe (m)<br>
-            T₁ = temperature at inner surface (°C)<br>
-            T₂ = temperature at outer surface (°C)<br>
-            r₁ = inner radius of the pipe (m)<br>
-            r₂ = outer radius of the pipe (m)
-        </p>
-
-        <p>
-            This equation is used to calculate the rate of heat transfer
-            through a hollow cylindrical pipe under steady-state conditions.
-        </p>
-
     </div>
+
+    <div class="info-box">
+        <h3>Heat Conduction in Cylindrical Pipes</h3>
+        <p>
+        In cylindrical pipes, heat flows radially from the inner surface to the
+        outer surface. The temperature distribution is logarithmic and the heat
+        transfer area increases with radius. This is important in pipelines,
+        heat exchangers, and insulated cables.
+        </p>
+    </div>
+</div>
+
+<!-- COMPARISON TABLE -->
+<h3 style="margin-top:35px;">Comparison of Heat Conduction Geometries</h3>
+
+<table>
+<tr>
+    <th>Aspect</th>
+    <th>Plane Wall</th>
+    <th>Cylindrical Pipe</th>
+</tr>
+<tr>
+    <td>Coordinate System</td>
+    <td>Cartesian (x, y, z)</td>
+    <td>Cylindrical (r, θ, z)</td>
+</tr>
+<tr>
+    <td>Heat Flow Direction</td>
+    <td>Linear (one-dimensional)</td>
+    <td>Radial (one-dimensional)</td>
+</tr>
+<tr>
+    <td>Temperature Distribution</td>
+    <td>Linear</td>
+    <td>Logarithmic</td>
+</tr>
+<tr>
+    <td>Heat Transfer Area</td>
+    <td>Constant</td>
+    <td>Varies with radius (2πrL)</td>
+</tr>
+<tr>
+    <td>Heat Transfer Rate</td>
+    <td>Q = kA(T₁ − T₂)/L</td>
+    <td>Q = 2πkL(T₁ − T₂)/ln(r₂/r₁)</td>
+</tr>
+<tr>
+    <td>Typical Applications</td>
+    <td>Walls, flat plates, slabs</td>
+    <td>Pipelines, heat exchangers, insulated cables</td>
+</tr>
+</table>
+
+<!-- SAMPLE PROBLEM -->
+<div class="sample">
+<h3>Sample Problem: Insulated Pipe</h3>
+
+<p>
+A steel pipe (k = 45 W/m·K) with inner radius 50 mm and outer radius 60 mm
+carries hot fluid at 180°C. The pipe is covered with 40 mm thick insulation
+(k = 0.1 W/m·K). If the outer surface temperature is 30°C, calculate the heat
+loss per meter length.
+</p>
+
+<p>
+<b>Result:</b> The calculated heat loss is approximately <b>203.9 W/m</b>,
+demonstrating that insulation significantly reduces heat loss compared to an
+uninsulated pipe.
+</p>
+</div>
+
 </div>
 
 </body>
