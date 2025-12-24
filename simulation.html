@@ -34,12 +34,6 @@ header{
     padding:16px;
     border-radius:16px;
     box-shadow:0 10px 25px rgba(0,0,0,0.25);
-    transition:transform 0.4s ease, opacity 0.4s ease;
-}
-
-.panel.animate{
-    transform:translateY(15px);
-    opacity:0;
 }
 
 h3{
@@ -79,7 +73,6 @@ canvas{
 
 .small{
     font-size:13px;
-    color:#333;
 }
 </style>
 </head>
@@ -124,7 +117,10 @@ canvas{
 <input id="time" value="60">
 
 <label>Output Unit</label>
-<select id="unit"><option value="W">Watt</option><option value="cal">cal/sec</option></select>
+<select id="unit">
+    <option value="W">Watt</option>
+    <option value="cal">cal/sec</option>
+</select>
 
 <button onclick="calculate()">Calculate</button>
 </div>
@@ -133,7 +129,7 @@ canvas{
 <div class="panel">
 <h3>Pipe Cross-Section</h3>
 <canvas id="pipeCanvas" width="300" height="300"></canvas>
-<p class="small">Red → hot inner surface | Blue dashed → selected radius</p>
+<p class="small">Red = inner hot surface | Blue dashed = selected radius</p>
 </div>
 
 <!-- RESULTS -->
@@ -147,29 +143,41 @@ canvas{
 </div>
 
 <script>
-let tempChart=null, timeChart=null;
+let tempChart=null;
+let timeChart=null;
 
 function drawPipe(r1,r2,rq){
     const c=document.getElementById("pipeCanvas");
     const ctx=c.getContext("2d");
     ctx.clearRect(0,0,300,300);
 
-    const cx=150,cy=150,scale=110/r2;
-    const R1=r1*scale,R2=r2*scale,RQ=rq*scale;
+    const cx=150, cy=150;
+    const scale=110/r2;
+
+    const R1=r1*scale;
+    const R2=r2*scale;
+    const RQ=rq*scale;
 
     const grad=ctx.createRadialGradient(cx,cy,R1,cx,cy,R2);
     grad.addColorStop(0,"#ff5722");
     grad.addColorStop(1,"#ffffff");
 
-    ctx.beginPath(); ctx.arc(cx,cy,R2,0,2*Math.PI);
-    ctx.fillStyle=grad; ctx.fill();
-
-    ctx.beginPath(); ctx.arc(cx,cy,R1,0,2*Math.PI);
-    ctx.fillStyle="#fff"; ctx.fill(); ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx,cy,R2,0,2*Math.PI);
+    ctx.fillStyle=grad;
+    ctx.fill();
 
     ctx.beginPath();
-    ctx.moveTo(cx,cy); ctx.lineTo(cx+R1,cy);
-    ctx.moveTo(cx,cy); ctx.lineTo(cx+R2,cy);
+    ctx.arc(cx,cy,R1,0,2*Math.PI);
+    ctx.fillStyle="#fff";
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+R1,cy);
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+R2,cy);
     ctx.stroke();
 
     ctx.font="14px Arial";
@@ -177,38 +185,46 @@ function drawPipe(r1,r2,rq){
     ctx.fillText("r = "+r2.toFixed(3)+" m",cx+R2/2-30,cy+15);
 
     ctx.setLineDash([6,4]);
-    ctx.beginPath(); ctx.arc(cx,cy,RQ,0,2*Math.PI);
-    ctx.strokeStyle="#0b5ed7"; ctx.lineWidth=2; ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx,cy,RQ,0,2*Math.PI);
+    ctx.strokeStyle="#0b5ed7";
+    ctx.lineWidth=2;
+    ctx.stroke();
     ctx.setLineDash([]);
 }
 
 function calculate(){
-    const r1=document.getElementById("r1").value*document.getElementById("r1unit").value;
-    const r2=document.getElementById("r2").value*document.getElementById("r2unit").value;
-    const rq=document.getElementById("rq").value*document.getElementById("rqunit").value;
+    const r1=document.getElementById("r1").value * document.getElementById("r1unit").value;
+    const r2=document.getElementById("r2").value * document.getElementById("r2unit").value;
+    const rq=document.getElementById("rq").value * document.getElementById("rqunit").value;
 
-    const T1=+T1=document.getElementById("T1").value;
-    const T2=+document.getElementById("T2").value;
-    const k=+document.getElementById("k").value;
-    const L=+document.getElementById("L").value;
-    const time=+document.getElementById("time").value;
+    const T1=Number(document.getElementById("T1").value);
+    const T2=Number(document.getElementById("T2").value);
+    const k=Number(document.getElementById("k").value);
+    const L=Number(document.getElementById("L").value);
+    const time=Number(document.getElementById("time").value);
     const unit=document.getElementById("unit").value;
 
+    if(rq<r1 || rq>r2){
+        document.getElementById("results").innerHTML="<b style='color:red'>Selected radius must lie between inner and outer radius</b>";
+        return;
+    }
+
     const Q=(2*Math.PI*k*L*(T1-T2))/Math.log(r2/r1);
-    const Qout=(unit==="cal")?Q/4.186:Q;
+    const Qout=(unit==="cal") ? Q/4.186 : Q;
 
     const Tr=T1+(T2-T1)*Math.log(rq/r1)/Math.log(r2/r1);
     const Qrq=Qout*Math.log(rq/r1)/Math.log(r2/r1);
 
     document.getElementById("results").innerHTML=
         "<b>Heat Flow Rate:</b> "+Qout.toFixed(3)+" "+(unit==="cal"?"cal/sec":"W")+"<br>"+
-        "<b>Total Heat Transferred (after "+time+" s):</b> "+(Qout*time).toFixed(3)+"<br>"+
-        "<b>Heat Transferred up to radius r:</b> "+Qrq.toFixed(3)+"<br>"+
+        "<b>Heat Transferred after "+time+" s:</b> "+(Qout*time).toFixed(3)+"<br>"+
+        "<b>Heat Transferred up to selected radius:</b> "+Qrq.toFixed(3)+"<br>"+
         "<b>Temperature at selected radius:</b> "+Tr.toFixed(2)+" °C";
 
     drawPipe(r1,r2,rq);
 
-    const rArr=[],tArr=[];
+    const rArr=[], tArr=[];
     for(let i=0;i<=20;i++){
         const r=r1+(r2-r1)*i/20;
         rArr.push(r.toFixed(4));
@@ -216,19 +232,23 @@ function calculate(){
     }
 
     if(tempChart) tempChart.destroy();
-    tempChart=new Chart(tempChart=document.getElementById("tempChart"),{
+    tempChart=new Chart(document.getElementById("tempChart"),{
         type:"line",
         data:{labels:rArr,datasets:[{label:"Temperature (°C)",data:tArr,borderColor:"#ff5722"}]},
-        options:{scales:{x:{title:{display:true,text:"Radius (m)"}},
-                         y:{title:{display:true,text:"Temperature (°C)"}}}}
+        options:{scales:{
+            x:{title:{display:true,text:"Radius (m)"}},
+            y:{title:{display:true,text:"Temperature (°C)"}}
+        }}
     });
 
     if(timeChart) timeChart.destroy();
     timeChart=new Chart(document.getElementById("timeChart"),{
         type:"line",
         data:{labels:[0,time],datasets:[{label:"Heat Flow",data:[Qout,Qout],borderColor:"#0b5ed7"}]},
-        options:{scales:{x:{title:{display:true,text:"Time (s)"}},
-                         y:{title:{display:true,text:"Heat Flow ("+(unit==="cal"?"cal/sec":"W")+")"}}}}
+        options:{scales:{
+            x:{title:{display:true,text:"Time (s)"}},
+            y:{title:{display:true,text:"Heat Flow ("+(unit==="cal"?"cal/sec":"W")+")"}}
+        }}
     });
 }
 
