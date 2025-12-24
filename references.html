@@ -1,43 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>References – Virtual Lab</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>References – Heat Conduction Virtual Lab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Temporary inline CSS (will be common later) -->
-    <style>
-        body{
-            margin:0;
-            font-family:Arial, sans-serif;
-            background:#f4f8fc;
-        }
-        header{
-            background:#0b5ed7;
-            color:white;
-            padding:16px;
-        }
-        header a{
-            color:white;
-            text-decoration:none;
-            font-size:14px;
-        }
-        .container{
-            padding:20px;
-        }
-        h1{
-            margin-top:0;
-        }
-        .box{
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 6px 14px rgba(0,0,0,0.15);
-        }
-        ul{
-            line-height:1.8;
-        }
-    </style>
+<style>
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f4f8ff;
+    color:#1f2937;
+}
+
+/* HEADER */
+header{
+    background:#1e3a8a;
+    color:white;
+    padding:14px 20px;
+}
+header h1{
+    margin:0;
+    font-size:22px;
+}
+nav a{
+    color:white;
+    margin-right:18px;
+    text-decoration:none;
+    font-weight:600;
+}
+nav a:hover{
+    text-decoration:underline;
+}
+
+/* CONTAINER */
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+/* SECTION TITLE */
+.section-title{
+    font-size:22px;
+    font-weight:bold;
+    color:#1e3a8a;
+    border-bottom:2px solid #2563eb;
+    padding-bottom:6px;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+/* REFERENCE CARD */
+.ref-card{
+    background:#eef5ff;
+    padding:16px 18px;
+    border-radius:10px;
+    margin-bottom:14px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.ref-card b{
+    color:#1e3a8a;
+}
+
+.ref-card i{
+    display:block;
+    margin-top:4px;
+    font-size:14px;
+    color:#374151;
+}
+</style>
 </head>
 
 <body>
@@ -45,26 +80,60 @@
 <header>
     <h1>Virtual Lab: Heat Conduction</h1>
     <nav>
-        <a href="home.html">Home</a>
+        <a href="index.html">Home</a>
         <a href="aim.html">Aim</a>
         <a href="theory.html">Theory</a>
-        <a href="index.html">Simulation</a>
+        <a href="simulation.html">Simulation</a>
+        <a href="references.html">References</a>
     </nav>
 </header>
 
-
 <div class="container">
-    <div class="box">
 
-        <ul>
-            <li>Incropera, F. P., and DeWitt, D. P., <i>Fundamentals of Heat and Mass Transfer</i>, Wiley.</li>
-            <li>Engineering Physics – Heat Transfer, University Level Textbooks.</li>
-            <li>Virtual Labs Initiative, IIT Consortium.</li>
-            <li>Fourier, J. B. J., <i>Analytical Theory of Heat</i>.</li>
-            <li>Standard Heat Transfer Data Tables.</li>
-        </ul>
+<div class="section-title">
+    📚 References
+</div>
 
-    </div>
+<p>
+Recommended textbooks and resources for further study on heat conduction
+and Fourier’s Law:
+</p>
+
+<div class="ref-card">
+    <b>Incropera, F. P., DeWitt, D. P., Bergman, T. L., & Lavine, A. S. (2017).</b>
+    <i>Fundamentals of Heat and Mass Transfer (8th ed.). John Wiley & Sons.</i>
+</div>
+
+<div class="ref-card">
+    <b>Çengel, Y. A., & Ghajar, A. J. (2020).</b>
+    <i>Heat and Mass Transfer: Fundamentals and Applications (6th ed.). McGraw-Hill Education.</i>
+</div>
+
+<div class="ref-card">
+    <b>Bergman, T. L., Lavine, A. S., Incropera, F. P., & DeWitt, D. P. (2011).</b>
+    <i>Introduction to Heat Transfer (6th ed.). John Wiley & Sons.</i>
+</div>
+
+<div class="ref-card">
+    <b>Özisik, M. N. (2018).</b>
+    <i>Heat Conduction (3rd ed.). John Wiley & Sons.</i>
+</div>
+
+<div class="ref-card">
+    <b>Kreith, F., Manglik, R. M., & Bohn, M. S. (2017).</b>
+    <i>Principles of Heat Transfer (7th ed.). Cengage Learning.</i>
+</div>
+
+<div class="ref-card">
+    <b>Bejan, A. (2013).</b>
+    <i>Heat Transfer (1st ed.). John Wiley & Sons.</i>
+</div>
+
+<div class="ref-card">
+    <b>Holman, J. P. (2010).</b>
+    <i>Heat Transfer (10th ed.). McGraw-Hill Education.</i>
+</div>
+
 </div>
 
 </body>
