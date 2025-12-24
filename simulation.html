@@ -30,12 +30,6 @@ header{
     text-align:center;
     box-shadow:0 6px 14px rgba(0,0,0,0.25);
 }
-nav a{
-    color:white;
-    margin:0 10px;
-    font-weight:bold;
-    text-decoration:none;
-}
 
 /* LAYOUT */
 .container{
@@ -45,7 +39,7 @@ nav a{
     padding:16px;
 }
 
-/* GLASS PANELS */
+/* PANELS */
 .panel{
     background:rgba(255,255,255,0.4);
     backdrop-filter:blur(12px);
@@ -159,6 +153,12 @@ canvas{
 <label>Time (seconds)</label>
 <input id="time" type="number" value="60">
 
+<label>Output Unit</label>
+<select id="outunit">
+    <option value="W">Watt</option>
+    <option value="cal">cal/sec</option>
+</select>
+
 <button onclick="calculate()">Calculate</button>
 </div>
 
@@ -174,36 +174,36 @@ canvas{
 <h3>Results & Graphs</h3>
 <div id="results" class="result"></div>
 <canvas id="tempChart"></canvas>
+<canvas id="timeChart"></canvas>
 </div>
 
 </div>
 
 <script>
-let tempChart;
+let tempChart, timeChart;
 
 function drawPipeDiagram(r1, r2, rQuery){
-    const c = document.getElementById("pipeCanvas");
-    const ctx = c.getContext("2d");
+    const c=document.getElementById("pipeCanvas");
+    const ctx=c.getContext("2d");
     ctx.clearRect(0,0,c.width,c.height);
 
-    const cx = c.width/2, cy = c.height/2;
-    const scale = 140 / r2;
-    const R1 = r1 * scale;
-    const R2 = r2 * scale;
-    const Rq = rQuery * scale;
+    const cx=c.width/2, cy=c.height/2;
+    const scale=140/r2;
 
-    const grad = ctx.createRadialGradient(cx,cy,R1,cx,cy,R2);
+    const R1=r1*scale, R2=r2*scale, Rq=rQuery*scale;
+
+    const grad=ctx.createRadialGradient(cx,cy,R1,cx,cy,R2);
     grad.addColorStop(0,"#ff5722");
     grad.addColorStop(1,"#ffffff");
 
     ctx.beginPath();
     ctx.arc(cx,cy,R2,0,2*Math.PI);
-    ctx.fillStyle = grad;
+    ctx.fillStyle=grad;
     ctx.fill();
 
     ctx.beginPath();
     ctx.arc(cx,cy,R1,0,2*Math.PI);
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle="#fff";
     ctx.fill();
 
     ctx.strokeStyle="#333";
@@ -222,34 +222,36 @@ function drawPipeDiagram(r1, r2, rQuery){
 }
 
 function calculate(){
-    const r1 = r1v = document.getElementById("r1").value * document.getElementById("r1unit").value;
-    const r2 = r2v = document.getElementById("r2").value * document.getElementById("r2unit").value;
-    const r = document.getElementById("rQuery").value * document.getElementById("rQueryUnit").value;
-    const T1 = +document.getElementById("T1").value;
-    const T2 = +document.getElementById("T2").value;
-    const k  = +document.getElementById("k").value;
-    const L  = document.getElementById("L").value * document.getElementById("Lunit").value;
-    const time = +document.getElementById("time").value;
+    const r1=document.getElementById("r1").value*document.getElementById("r1unit").value;
+    const r2=document.getElementById("r2").value*document.getElementById("r2unit").value;
+    const r=document.getElementById("rQuery").value*document.getElementById("rQueryUnit").value;
 
-    if(r < r1 || r > r2){
+    const T1=+document.getElementById("T1").value;
+    const T2=+document.getElementById("T2").value;
+    const k=+document.getElementById("k").value;
+    const L=document.getElementById("L").value*document.getElementById("Lunit").value;
+    const time=+document.getElementById("time").value;
+    const unit=document.getElementById("outunit").value;
+
+    if(r<r1 || r>r2){
         document.getElementById("results").innerHTML =
         "<b style='color:red'>Selected radius must lie between r₁ and r₂.</b>";
         return;
     }
 
-    const Q = (2*Math.PI*k*L*(T1-T2))/Math.log(r2/r1);
+    const Q=(2*Math.PI*k*L*(T1-T2))/Math.log(r2/r1);
+    const Qout = unit==="cal" ? Q/4.186 : Q;
+
     const Tr = T1 + (T2-T1)*Math.log(r/r1)/Math.log(r2/r1);
 
-    document.getElementById("results").innerHTML = `
-    <b>Heat Flow Rate:</b> ${Q.toFixed(2)} W<br>
-    <b>Temperature at r = ${r.toFixed(3)} m:</b> ${Tr.toFixed(2)} °C<br><br>
-    <b>Formulae:</b><br>
-    Q = 2πkL(T₁−T₂)/ln(r₂/r₁)<br>
-    T(r) = T₁ + (T₂−T₁) ln(r/r₁)/ln(r₂/r₁)
+    document.getElementById("results").innerHTML=`
+    <b>Heat Flow Rate:</b> ${Qout.toFixed(2)} ${unit==="cal"?"cal/sec":"W"}<br>
+    <b>Temperature at r = ${r.toFixed(3)} m:</b> ${Tr.toFixed(2)} °C
     `;
 
     drawPipeDiagram(r1,r2,r);
 
+    /* Temperature vs Radius */
     const rv=[], Tv=[];
     for(let i=0;i<=20;i++){
         const x=r1+(r2-r1)*i/20;
@@ -258,12 +260,30 @@ function calculate(){
     }
 
     if(tempChart) tempChart.destroy();
-    tempChart = new Chart(document.getElementById("tempChart"),{
+    tempChart=new Chart(document.getElementById("tempChart"),{
         type:"line",
         data:{labels:rv,datasets:[{
             label:"Temperature (°C)",
             data:Tv,
             borderColor:"#ff5722",
+            borderWidth:3
+        }]}
+    });
+
+    /* Heat Flow vs Time */
+    const t=[], q=[];
+    for(let i=0;i<=10;i++){
+        t.push((i*time/10).toFixed(1));
+        q.push(Qout);
+    }
+
+    if(timeChart) timeChart.destroy();
+    timeChart=new Chart(document.getElementById("timeChart"),{
+        type:"line",
+        data:{labels:t,datasets:[{
+            label:`Heat Flow (${unit==="cal"?"cal/sec":"W"})`,
+            data:q,
+            borderColor:"#0b5ed7",
             borderWidth:3
         }]}
     });
