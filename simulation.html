@@ -1,175 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Simulation – Fourier’s Law Heat Flow</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-/* ---------- BODY ---------- */
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:linear-gradient(135deg,#c9f7f5,#e6fffa);
-}
-
-/* ---------- HEADER ---------- */
-header{
-    background:#06b6d4;
-    color:white;
-    padding:18px;
-    text-align:center;
-}
-
-/* ---------- LAYOUT ---------- */
-.container{
-    display:grid;
-    grid-template-columns:1fr 1.5fr 1.5fr;
-    gap:16px;
-    padding:16px;
-}
-
-/* ---------- GLASS PANELS ---------- */
-.panel{
-    background:rgba(255,255,255,0.45);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    padding:16px;
-    border-radius:16px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.25);
-    transition:transform 0.4s ease, opacity 0.4s ease;
-}
-
-/* slide animation */
-.panel.animate{
-    transform:translateY(15px);
-    opacity:0;
-}
-
-/* ---------- HEADINGS ---------- */
-h3{
-    margin-top:0;
-    border-bottom:2px solid #ddd;
-    padding-bottom:6px;
-}
-
-/* ---------- INPUTS ---------- */
-input, select{
-    width:100%;
-    padding:8px;
-    margin:6px 0;
-}
-
-/* ---------- BUTTON ---------- */
-button{
-    width:100%;
-    padding:10px;
-    background:#fd7e14;
-    color:white;
-    border:none;
-    font-weight:bold;
-    cursor:pointer;
-    border-radius:8px;
-}
-
-/* ---------- RESULT ---------- */
-.result{
-    background:rgba(255,255,255,0.7);
-    padding:12px;
-    border-left:5px solid #06b6d4;
-}
-
-/* ---------- CANVAS ---------- */
-canvas{
-    background:white;
-    margin-top:10px;
-    border-radius:10px;
-}
-
-/* ---------- TEXT ---------- */
-.small{
-    font-size:13px;
-    color:#333;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-    <h1>Heat Conduction Simulation (Cylindrical Pipe)</h1>
-</header>
-
-<div class="container">
-
-<!-- INPUT -->
-<div class="panel" id="inputPanel">
-<h3>Input Parameters</h3>
-
-<label>Inner Radius</label>
-<input id="r1" value="5">
-<select id="r1unit">
-    <option value="0.01">cm</option>
-    <option value="1">m</option>
-</select>
-
-<label>Outer Radius</label>
-<input id="r2" value="7">
-<select id="r2unit">
-    <option value="0.01">cm</option>
-    <option value="1">m</option>
-</select>
-
-<label>Radius for Temperature</label>
-<input id="rq" value="6">
-<select id="rqunit">
-    <option value="0.01">cm</option>
-    <option value="1">m</option>
-</select>
-
-<label>Inner Temperature (°C)</label>
-<input id="T1" value="200">
-
-<label>Outer Temperature (°C)</label>
-<input id="T2" value="50">
-
-<label>Thermal Conductivity (W/m·K)</label>
-<input id="k" value="45">
-
-<label>Pipe Length (m)</label>
-<input id="L" value="1">
-
-<label>Time (s)</label>
-<input id="time" value="60">
-
-<label>Output Unit</label>
-<select id="unit">
-    <option value="W">Watt</option>
-    <option value="cal">cal/sec</option>
-</select>
-
-<button onclick="calculate()">Calculate</button>
-</div>
-
-<!-- DIAGRAM -->
-<div class="panel" id="diagramPanel">
-<h3>Pipe Cross-Section</h3>
-<canvas id="pipeCanvas" width="300" height="300"></canvas>
-<p class="small">Red → hot inner surface, blue dashed → selected radius</p>
-</div>
-
-<!-- RESULTS -->
-<div class="panel" id="resultPanel">
-<h3>Results & Graphs</h3>
-<div id="results" class="result"></div>
-<canvas id="tempChart"></canvas>
-<canvas id="timeChart"></canvas>
-</div>
-
-</div>
-
 <script>
 let tempChart=null, timeChart=null;
 
@@ -190,19 +18,20 @@ function drawPipe(r1,r2,rq){
     grad.addColorStop(0,"#ff5722");
     grad.addColorStop(1,"#ffffff");
 
-    // Outer
+    // Outer pipe
     ctx.beginPath();
     ctx.arc(cx,cy,R2,0,2*Math.PI);
     ctx.fillStyle=grad;
     ctx.fill();
 
-    // Inner
+    // Inner pipe
     ctx.beginPath();
     ctx.arc(cx,cy,R1,0,2*Math.PI);
     ctx.fillStyle="#fff";
     ctx.fill();
 
     ctx.strokeStyle="#000";
+    ctx.lineWidth=2;
     ctx.stroke();
 
     // Radius lines
@@ -213,13 +42,13 @@ function drawPipe(r1,r2,rq){
     ctx.lineTo(cx+R2,cy);
     ctx.stroke();
 
-    // Labels
+    // Labels r1 and r2
     ctx.fillStyle="#000";
     ctx.font="14px Arial";
-    ctx.fillText("r₁",cx+R1/2-5,cy-5);
-    ctx.fillText("r₂",cx+R2/2-5,cy+15);
+    ctx.fillText(`r₁ = ${r1.toFixed(3)} m`, cx+R1/2-25, cy-8);
+    ctx.fillText(`r₂ = ${r2.toFixed(3)} m`, cx+R2/2-25, cy+18);
 
-    // Selected radius
+    // Selected radius (dashed)
     ctx.setLineDash([6,4]);
     ctx.beginPath();
     ctx.arc(cx,cy,RQ,0,2*Math.PI);
@@ -227,19 +56,17 @@ function drawPipe(r1,r2,rq){
     ctx.lineWidth=2;
     ctx.stroke();
     ctx.setLineDash([]);
-}
 
-function animatePanels(){
-    ["diagramPanel","resultPanel"].forEach(id=>{
-        const p=document.getElementById(id);
-        p.classList.add("animate");
-        setTimeout(()=>p.classList.remove("animate"),10);
-    });
+    // Selected radius label
+    ctx.fillStyle="#0b5ed7";
+    ctx.fillText(
+        `Selected r = ${rq.toFixed(3)} m`,
+        cx - 55,
+        cy - RQ - 10
+    );
 }
 
 function calculate(){
-    animatePanels();
-
     const r1=document.getElementById("r1").value*document.getElementById("r1unit").value;
     const r2=document.getElementById("r2").value*document.getElementById("r2unit").value;
     const rq=document.getElementById("rq").value*document.getElementById("rqunit").value;
@@ -251,8 +78,9 @@ function calculate(){
     const time=+document.getElementById("time").value;
     const unit=document.getElementById("unit").value;
 
-    if(rq<r1||rq>r2){
-        document.getElementById("results").innerHTML="<b style='color:red'>Radius must be between r₁ and r₂</b>";
+    if(rq<r1 || rq>r2){
+        document.getElementById("results").innerHTML=
+        "<b style='color:red'>Selected radius must lie between inner and outer radius</b>";
         return;
     }
 
@@ -262,13 +90,14 @@ function calculate(){
     const Rth=Math.log(r2/r1)/(2*Math.PI*k*L);
 
     document.getElementById("results").innerHTML=
-        "<b>Heat Flow Rate:</b> "+Qout.toFixed(3)+" "+(unit==="cal"?"cal/sec":"W")+"<br>"+
-        "<b>Total Heat Transferred:</b> "+(Qout*time).toFixed(2)+"<br>"+
-        "<b>Thermal Resistance:</b> "+Rth.toFixed(6)+" K/W<br>"+
-        "<b>Temperature at r:</b> "+Tr.toFixed(2)+" °C";
+        `<b>Heat Flow Rate:</b> ${Qout.toFixed(3)} ${unit==="cal"?"cal/sec":"W"}<br>
+         <b>Total Heat Transferred:</b> ${(Qout*time).toFixed(2)}<br>
+         <b>Thermal Resistance:</b> ${Rth.toFixed(6)} K/W<br>
+         <b>Temperature at selected radius:</b> ${Tr.toFixed(2)} °C`;
 
     drawPipe(r1,r2,rq);
 
+    /* ---------- TEMPERATURE GRAPH ---------- */
     const rArr=[],tArr=[];
     for(let i=0;i<=20;i++){
         const r=r1+(r2-r1)*i/20;
@@ -279,21 +108,50 @@ function calculate(){
     if(tempChart) tempChart.destroy();
     tempChart=new Chart(document.getElementById("tempChart"),{
         type:"line",
-        data:{labels:rArr,datasets:[{label:"Temperature (°C)",data:tArr,borderColor:"#ff5722"}]}
+        data:{
+            labels:rArr,
+            datasets:[{
+                label:"Temperature (°C)",
+                data:tArr,
+                borderColor:"#ff5722",
+                borderWidth:3
+            }]
+        },
+        options:{
+            scales:{
+                x:{ title:{display:true,text:"Radius (m)"} },
+                y:{ title:{display:true,text:"Temperature (°C)"} }
+            }
+        }
     });
 
-    const tt=[],qq=[];
-    for(let i=0;i<=10;i++){tt.push(i*time/10);qq.push(Qout);}
+    /* ---------- HEAT FLOW GRAPH ---------- */
+    const t=[],q=[];
+    for(let i=0;i<=10;i++){
+        t.push(i*time/10);
+        q.push(Qout);
+    }
 
     if(timeChart) timeChart.destroy();
     timeChart=new Chart(document.getElementById("timeChart"),{
         type:"line",
-        data:{labels:tt,datasets:[{label:"Heat Flow",data:qq,borderColor:"#0b5ed7"}]}
+        data:{
+            labels:t,
+            datasets:[{
+                label:"Heat Flow Rate",
+                data:q,
+                borderColor:"#0b5ed7",
+                borderWidth:3
+            }]
+        },
+        options:{
+            scales:{
+                x:{ title:{display:true,text:"Time (seconds)"} },
+                y:{ title:{display:true,text:`Heat Flow (${unit==="cal"?"cal/sec":"W"})`} }
+            }
+        }
     });
 }
 
 calculate();
 </script>
-
-</body>
-</html>
