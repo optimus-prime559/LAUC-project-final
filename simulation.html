@@ -180,8 +180,16 @@ function drawPipe(r1,r2,rq){
     ctx.lineTo(cx+R2,cy);
     ctx.stroke();
 
+    /* 🔧 FIX: HIGH-CONTRAST TEXT */
     ctx.font="14px Arial";
+    ctx.lineWidth=3;
+    ctx.strokeStyle="white";   // outline for contrast
+    ctx.fillStyle="black";     // main text color
+
+    ctx.strokeText("r = "+r1.toFixed(3)+" m",cx+R1/2-30,cy-5);
     ctx.fillText("r = "+r1.toFixed(3)+" m",cx+R1/2-30,cy-5);
+
+    ctx.strokeText("r = "+r2.toFixed(3)+" m",cx+R2/2-30,cy+15);
     ctx.fillText("r = "+r2.toFixed(3)+" m",cx+R2/2-30,cy+15);
 
     ctx.setLineDash([6,4]);
