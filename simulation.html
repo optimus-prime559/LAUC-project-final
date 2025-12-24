@@ -93,29 +93,20 @@ canvas{
 <div class="container">
 
 <!-- INPUT -->
-<div class="panel" id="inputPanel">
+<div class="panel">
 <h3>Input Parameters</h3>
 
 <label>Inner Radius</label>
 <input id="r1" value="5">
-<select id="r1unit">
-    <option value="0.01">cm</option>
-    <option value="1">m</option>
-</select>
+<select id="r1unit"><option value="0.01">cm</option><option value="1">m</option></select>
 
 <label>Outer Radius</label>
 <input id="r2" value="7">
-<select id="r2unit">
-    <option value="0.01">cm</option>
-    <option value="1">m</option>
-</select>
+<select id="r2unit"><option value="0.01">cm</option><option value="1">m</option></select>
 
 <label>Radius for Temperature</label>
 <input id="rq" value="6">
-<select id="rqunit">
-    <option value="0.01">cm</option>
-    <option value="1">m</option>
-</select>
+<select id="rqunit"><option value="0.01">cm</option><option value="1">m</option></select>
 
 <label>Inner Temperature (°C)</label>
 <input id="T1" value="200">
@@ -133,23 +124,20 @@ canvas{
 <input id="time" value="60">
 
 <label>Output Unit</label>
-<select id="unit">
-    <option value="W">Watt</option>
-    <option value="cal">cal/sec</option>
-</select>
+<select id="unit"><option value="W">Watt</option><option value="cal">cal/sec</option></select>
 
 <button onclick="calculate()">Calculate</button>
 </div>
 
 <!-- DIAGRAM -->
-<div class="panel" id="diagramPanel">
+<div class="panel">
 <h3>Pipe Cross-Section</h3>
 <canvas id="pipeCanvas" width="300" height="300"></canvas>
-<p class="small">Red → hot inner surface, blue dashed → selected radius</p>
+<p class="small">Red → hot inner surface | Blue dashed → selected radius</p>
 </div>
 
 <!-- RESULTS -->
-<div class="panel" id="resultPanel">
+<div class="panel">
 <h3>Results & Graphs</h3>
 <div id="results" class="result"></div>
 <canvas id="tempChart"></canvas>
@@ -166,89 +154,57 @@ function drawPipe(r1,r2,rq){
     const ctx=c.getContext("2d");
     ctx.clearRect(0,0,300,300);
 
-    const cx=150, cy=150;
-    const scale=110/r2;
-
-    const R1=r1*scale;
-    const R2=r2*scale;
-    const RQ=rq*scale;
+    const cx=150,cy=150,scale=110/r2;
+    const R1=r1*scale,R2=r2*scale,RQ=rq*scale;
 
     const grad=ctx.createRadialGradient(cx,cy,R1,cx,cy,R2);
     grad.addColorStop(0,"#ff5722");
     grad.addColorStop(1,"#ffffff");
 
-    ctx.beginPath();
-    ctx.arc(cx,cy,R2,0,2*Math.PI);
-    ctx.fillStyle=grad;
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(cx,cy,R2,0,2*Math.PI);
+    ctx.fillStyle=grad; ctx.fill();
+
+    ctx.beginPath(); ctx.arc(cx,cy,R1,0,2*Math.PI);
+    ctx.fillStyle="#fff"; ctx.fill(); ctx.stroke();
 
     ctx.beginPath();
-    ctx.arc(cx,cy,R1,0,2*Math.PI);
-    ctx.fillStyle="#fff";
-    ctx.fill();
-
-    ctx.strokeStyle="#000";
+    ctx.moveTo(cx,cy); ctx.lineTo(cx+R1,cy);
+    ctx.moveTo(cx,cy); ctx.lineTo(cx+R2,cy);
     ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(cx,cy);
-    ctx.lineTo(cx+R1,cy);
-    ctx.moveTo(cx,cy);
-    ctx.lineTo(cx+R2,cy);
-    ctx.stroke();
-
-    /* ✅ USER RADIUS LABELS */
-    ctx.fillStyle="#000";
     ctx.font="14px Arial";
-    ctx.fillText("r = " + r1.toFixed(3) + " m", cx+R1/2-30, cy-5);
-    ctx.fillText("r = " + r2.toFixed(3) + " m", cx+R2/2-30, cy+15);
+    ctx.fillText("r = "+r1.toFixed(3)+" m",cx+R1/2-30,cy-5);
+    ctx.fillText("r = "+r2.toFixed(3)+" m",cx+R2/2-30,cy+15);
 
     ctx.setLineDash([6,4]);
-    ctx.beginPath();
-    ctx.arc(cx,cy,RQ,0,2*Math.PI);
-    ctx.strokeStyle="#0b5ed7";
-    ctx.lineWidth=2;
-    ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx,cy,RQ,0,2*Math.PI);
+    ctx.strokeStyle="#0b5ed7"; ctx.lineWidth=2; ctx.stroke();
     ctx.setLineDash([]);
 }
 
-function animatePanels(){
-    ["diagramPanel","resultPanel"].forEach(id=>{
-        const p=document.getElementById(id);
-        p.classList.add("animate");
-        setTimeout(()=>p.classList.remove("animate"),10);
-    });
-}
-
 function calculate(){
-    animatePanels();
-
     const r1=document.getElementById("r1").value*document.getElementById("r1unit").value;
     const r2=document.getElementById("r2").value*document.getElementById("r2unit").value;
     const rq=document.getElementById("rq").value*document.getElementById("rqunit").value;
 
-    const T1=+document.getElementById("T1").value;
+    const T1=+T1=document.getElementById("T1").value;
     const T2=+document.getElementById("T2").value;
     const k=+document.getElementById("k").value;
     const L=+document.getElementById("L").value;
     const time=+document.getElementById("time").value;
     const unit=document.getElementById("unit").value;
 
-    if(rq<r1||rq>r2){
-        document.getElementById("results").innerHTML="<b style='color:red'>Radius must be between inner and outer radius</b>";
-        return;
-    }
-
     const Q=(2*Math.PI*k*L*(T1-T2))/Math.log(r2/r1);
     const Qout=(unit==="cal")?Q/4.186:Q;
+
     const Tr=T1+(T2-T1)*Math.log(rq/r1)/Math.log(r2/r1);
-    const Rth=Math.log(r2/r1)/(2*Math.PI*k*L);
+    const Qrq=Qout*Math.log(rq/r1)/Math.log(r2/r1);
 
     document.getElementById("results").innerHTML=
         "<b>Heat Flow Rate:</b> "+Qout.toFixed(3)+" "+(unit==="cal"?"cal/sec":"W")+"<br>"+
-        "<b>Total Heat Transferred:</b> "+(Qout*time).toFixed(2)+"<br>"+
-        "<b>Thermal Resistance:</b> "+Rth.toFixed(6)+" K/W<br>"+
-        "<b>Temperature at r:</b> "+Tr.toFixed(2)+" °C";
+        "<b>Total Heat Transferred (after "+time+" s):</b> "+(Qout*time).toFixed(3)+"<br>"+
+        "<b>Heat Transferred up to radius r:</b> "+Qrq.toFixed(3)+"<br>"+
+        "<b>Temperature at selected radius:</b> "+Tr.toFixed(2)+" °C";
 
     drawPipe(r1,r2,rq);
 
@@ -260,18 +216,19 @@ function calculate(){
     }
 
     if(tempChart) tempChart.destroy();
-    tempChart=new Chart(document.getElementById("tempChart"),{
+    tempChart=new Chart(tempChart=document.getElementById("tempChart"),{
         type:"line",
-        data:{labels:rArr,datasets:[{label:"Temperature (°C)",data:tArr,borderColor:"#ff5722"}]}
+        data:{labels:rArr,datasets:[{label:"Temperature (°C)",data:tArr,borderColor:"#ff5722"}]},
+        options:{scales:{x:{title:{display:true,text:"Radius (m)"}},
+                         y:{title:{display:true,text:"Temperature (°C)"}}}}
     });
-
-    const tt=[],qq=[];
-    for(let i=0;i<=10;i++){tt.push(i*time/10);qq.push(Qout);}
 
     if(timeChart) timeChart.destroy();
     timeChart=new Chart(document.getElementById("timeChart"),{
         type:"line",
-        data:{labels:tt,datasets:[{label:"Heat Flow",data:qq,borderColor:"#0b5ed7"}]}
+        data:{labels:[0,time],datasets:[{label:"Heat Flow",data:[Qout,Qout],borderColor:"#0b5ed7"}]},
+        options:{scales:{x:{title:{display:true,text:"Time (s)"}},
+                         y:{title:{display:true,text:"Heat Flow ("+(unit==="cal"?"cal/sec":"W")+")"}}}}
     });
 }
 
