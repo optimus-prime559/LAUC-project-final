@@ -1,3 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Heat Conduction Simulation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#e6fffa;
+}
+
+header{
+    background:#0891b2;
+    color:white;
+    padding:15px;
+    text-align:center;
+}
+
+.container{
+    display:grid;
+    grid-template-columns:1fr 1.3fr 1.5fr;
+    gap:16px;
+    padding:16px;
+}
+
+.panel{
+    background:rgba(255,255,255,0.6);
+    backdrop-filter:blur(10px);
+    padding:16px;
+    border-radius:16px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+h3{
+    margin-top:0;
+    border-bottom:2px solid #ccc;
+    padding-bottom:6px;
+}
+
+input{
+    width:100%;
+    padding:8px;
+    margin:6px 0;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    background:#ff8c00;
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+canvas{
+    background:white;
+    border-radius:10px;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Heat Conduction in Cylindrical Pipe</h1>
+</header>
+
+<div class="container">
+
+<!-- INPUT -->
+<div class="panel">
+<h3>Inputs</h3>
+
+<label>Inner radius r₁ (m)</label>
+<input id="r1" value="0.05">
+
+<label>Outer radius r₂ (m)</label>
+<input id="r2" value="0.07">
+
+<label>Selected radius r (m)</label>
+<input id="rq" value="0.06">
+
+<label>Inner temperature T₁ (°C)</label>
+<input id="T1" value="200">
+
+<label>Outer temperature T₂ (°C)</label>
+<input id="T2" value="50">
+
+<label>Thermal conductivity k (W/m·K)</label>
+<input id="k" value="45">
+
+<label>Pipe length L (m)</label>
+<input id="L" value="1">
+
+<label>Time (s)</label>
+<input id="time" value="60">
+
+<button onclick="calculate()">Calculate</button>
+</div>
+
+<!-- DIAGRAM -->
+<div class="panel">
+<h3>Pipe Cross-Section</h3>
+<canvas id="pipeCanvas" width="300" height="300"></canvas>
+</div>
+
+<!-- RESULTS -->
+<div class="panel">
+<h3>Results & Graphs</h3>
+<div id="results"></div>
+<canvas id="tempChart"></canvas>
+<canvas id="timeChart"></canvas>
+</div>
+
+</div>
+
 <script>
 let tempChart=null, timeChart=null;
 
@@ -13,145 +137,91 @@ function drawPipe(r1,r2,rq){
     const R2=r2*scale;
     const RQ=rq*scale;
 
-    // Gradient
     const grad=ctx.createRadialGradient(cx,cy,R1,cx,cy,R2);
     grad.addColorStop(0,"#ff5722");
     grad.addColorStop(1,"#ffffff");
 
-    // Outer pipe
     ctx.beginPath();
     ctx.arc(cx,cy,R2,0,2*Math.PI);
     ctx.fillStyle=grad;
     ctx.fill();
 
-    // Inner pipe
     ctx.beginPath();
     ctx.arc(cx,cy,R1,0,2*Math.PI);
     ctx.fillStyle="#fff";
     ctx.fill();
 
     ctx.strokeStyle="#000";
-    ctx.lineWidth=2;
     ctx.stroke();
 
-    // Radius lines
-    ctx.beginPath();
-    ctx.moveTo(cx,cy);
-    ctx.lineTo(cx+R1,cy);
-    ctx.moveTo(cx,cy);
-    ctx.lineTo(cx+R2,cy);
-    ctx.stroke();
-
-    // Labels r1 and r2
-    ctx.fillStyle="#000";
-    ctx.font="14px Arial";
-    ctx.fillText(`r₁ = ${r1.toFixed(3)} m`, cx+R1/2-25, cy-8);
-    ctx.fillText(`r₂ = ${r2.toFixed(3)} m`, cx+R2/2-25, cy+18);
-
-    // Selected radius (dashed)
     ctx.setLineDash([6,4]);
     ctx.beginPath();
     ctx.arc(cx,cy,RQ,0,2*Math.PI);
-    ctx.strokeStyle="#0b5ed7";
-    ctx.lineWidth=2;
+    ctx.strokeStyle="#0066cc";
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // Selected radius label
-    ctx.fillStyle="#0b5ed7";
-    ctx.fillText(
-        `Selected r = ${rq.toFixed(3)} m`,
-        cx - 55,
-        cy - RQ - 10
-    );
+    ctx.fillStyle="#000";
+    ctx.fillText(`r₁ = ${r1} m`, cx+10, cy-10);
+    ctx.fillText(`r₂ = ${r2} m`, cx+10, cy+15);
+    ctx.fillText(`r = ${rq} m`, cx-40, cy-RQ-5);
 }
 
 function calculate(){
-    const r1=document.getElementById("r1").value*document.getElementById("r1unit").value;
-    const r2=document.getElementById("r2").value*document.getElementById("r2unit").value;
-    const rq=document.getElementById("rq").value*document.getElementById("rqunit").value;
-
-    const T1=+document.getElementById("T1").value;
-    const T2=+document.getElementById("T2").value;
-    const k=+document.getElementById("k").value;
-    const L=+document.getElementById("L").value;
-    const time=+document.getElementById("time").value;
-    const unit=document.getElementById("unit").value;
+    const r1=+r1.value;
+    const r2=+r2.value;
+    const rq=+rq.value;
+    const T1=+T1.value;
+    const T2=+T2.value;
+    const k=+k.value;
+    const L=+L.value;
+    const time=+time.value;
 
     if(rq<r1 || rq>r2){
-        document.getElementById("results").innerHTML=
-        "<b style='color:red'>Selected radius must lie between inner and outer radius</b>";
+        results.innerHTML="<b style='color:red'>Selected radius must lie between r₁ and r₂</b>";
         return;
     }
 
     const Q=(2*Math.PI*k*L*(T1-T2))/Math.log(r2/r1);
-    const Qout=(unit==="cal")?Q/4.186:Q;
     const Tr=T1+(T2-T1)*Math.log(rq/r1)/Math.log(r2/r1);
-    const Rth=Math.log(r2/r1)/(2*Math.PI*k*L);
 
-    document.getElementById("results").innerHTML=
-        `<b>Heat Flow Rate:</b> ${Qout.toFixed(3)} ${unit==="cal"?"cal/sec":"W"}<br>
-         <b>Total Heat Transferred:</b> ${(Qout*time).toFixed(2)}<br>
-         <b>Thermal Resistance:</b> ${Rth.toFixed(6)} K/W<br>
-         <b>Temperature at selected radius:</b> ${Tr.toFixed(2)} °C`;
+    results.innerHTML=
+    `<b>Heat flow rate:</b> ${Q.toFixed(2)} W<br>
+     <b>Total heat:</b> ${(Q*time).toFixed(2)} J<br>
+     <b>Temperature at r:</b> ${Tr.toFixed(2)} °C`;
 
     drawPipe(r1,r2,rq);
 
-    /* ---------- TEMPERATURE GRAPH ---------- */
-    const rArr=[],tArr=[];
+    const r=[],T=[];
     for(let i=0;i<=20;i++){
-        const r=r1+(r2-r1)*i/20;
-        rArr.push(r.toFixed(4));
-        tArr.push(T1+(T2-T1)*Math.log(r/r1)/Math.log(r2/r1));
+        const rv=r1+(r2-r1)*i/20;
+        r.push(rv.toFixed(3));
+        T.push(T1+(T2-T1)*Math.log(rv/r1)/Math.log(r2/r1));
     }
 
     if(tempChart) tempChart.destroy();
-    tempChart=new Chart(document.getElementById("tempChart"),{
+    tempChart=new Chart(tempChartCanvas,{
         type:"line",
-        data:{
-            labels:rArr,
-            datasets:[{
-                label:"Temperature (°C)",
-                data:tArr,
-                borderColor:"#ff5722",
-                borderWidth:3
-            }]
-        },
-        options:{
-            scales:{
-                x:{ title:{display:true,text:"Radius (m)"} },
-                y:{ title:{display:true,text:"Temperature (°C)"} }
-            }
-        }
+        data:{labels:r,datasets:[{label:"Temperature (°C)",data:T,borderColor:"red"}]},
+        options:{scales:{x:{title:{display:true,text:"Radius (m)"}},y:{title:{display:true,text:"Temperature (°C)"}}}}
     });
 
-    /* ---------- HEAT FLOW GRAPH ---------- */
     const t=[],q=[];
-    for(let i=0;i<=10;i++){
-        t.push(i*time/10);
-        q.push(Qout);
-    }
+    for(let i=0;i<=10;i++){t.push(i*time/10);q.push(Q);}
 
     if(timeChart) timeChart.destroy();
-    timeChart=new Chart(document.getElementById("timeChart"),{
+    timeChart=new Chart(timeChartCanvas,{
         type:"line",
-        data:{
-            labels:t,
-            datasets:[{
-                label:"Heat Flow Rate",
-                data:q,
-                borderColor:"#0b5ed7",
-                borderWidth:3
-            }]
-        },
-        options:{
-            scales:{
-                x:{ title:{display:true,text:"Time (seconds)"} },
-                y:{ title:{display:true,text:`Heat Flow (${unit==="cal"?"cal/sec":"W"})`} }
-            }
-        }
+        data:{labels:t,datasets:[{label:"Heat Flow (W)",data:q,borderColor:"blue"}]},
+        options:{scales:{x:{title:{display:true,text:"Time (s)"}},y:{title:{display:true,text:"Heat Flow (W)"}}}}
     });
 }
 
+const tempChartCanvas=document.getElementById("tempChart");
+const timeChartCanvas=document.getElementById("timeChart");
+
 calculate();
 </script>
+
+</body>
+</html>
