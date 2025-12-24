@@ -6,67 +6,123 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#f4f8fc;
+/* ---------- ROOT COLORS ---------- */
+:root{
+    --blue1:#0b5ed7;
+    --blue2:#06b6d4;
+    --glass:rgba(255,255,255,0.25);
+    --shadow:rgba(0,0,0,0.2);
 }
 
-/* HEADER */
+/* ---------- BODY ---------- */
+body{
+    margin:0;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:linear-gradient(135deg,#dbeafe,#e0f2fe,#ecfeff);
+    background-size:400% 400%;
+    animation:bgMove 12s ease infinite;
+}
+
+/* Animated background */
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* ---------- HEADER ---------- */
 .header{
-    background:linear-gradient(90deg,#0b5ed7,#06b6d4);
+    background:linear-gradient(90deg,var(--blue1),var(--blue2));
     color:white;
-    padding:30px 20px;
+    padding:40px 20px;
     text-align:center;
+    box-shadow:0 10px 25px var(--shadow);
 }
 .header h1{
     margin:0;
-    font-size:32px;
+    font-size:36px;
+    letter-spacing:0.5px;
 }
 .header p{
-    margin-top:8px;
+    margin-top:10px;
     opacity:0.9;
+    font-size:16px;
 }
 
-/* GRID */
+/* ---------- GRID ---------- */
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:20px;
-    padding:30px;
-    max-width:1100px;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    padding:40px;
+    max-width:1200px;
     margin:auto;
 }
 
-/* CARD */
+/* ---------- CARD ---------- */
 .card{
-    background:white;
-    border-radius:16px;
-    padding:30px 20px;
+    background:var(--glass);
+    backdrop-filter:blur(14px);
+    border-radius:20px;
+    padding:35px 25px;
     text-align:center;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
     cursor:pointer;
-    transition:all 0.25s ease;
-}
-.card:hover{
-    transform:translateY(-6px);
-    background:#e8f2ff;
+
+    box-shadow:
+        0 10px 25px var(--shadow),
+        inset 0 1px 1px rgba(255,255,255,0.4);
+
+    transition:transform 0.3s ease, box-shadow 0.3s ease;
+    animation:fadeUp 0.8s ease forwards;
+    opacity:0;
 }
 
+/* stagger animation */
+.card:nth-child(1){animation-delay:0.1s}
+.card:nth-child(2){animation-delay:0.2s}
+.card:nth-child(3){animation-delay:0.3s}
+.card:nth-child(4){animation-delay:0.4s}
+.card:nth-child(5){animation-delay:0.5s}
+.card:nth-child(6){animation-delay:0.6s}
+.card:nth-child(7){animation-delay:0.7s}
+.card:nth-child(8){animation-delay:0.8s}
+
+@keyframes fadeUp{
+    from{transform:translateY(30px);opacity:0}
+    to{transform:translateY(0);opacity:1}
+}
+
+/* Hover effect */
+.card:hover{
+    transform:translateY(-10px) scale(1.03);
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.25),
+        inset 0 1px 1px rgba(255,255,255,0.6);
+}
+
+/* ---------- ICON ---------- */
+.icon{
+    font-size:42px;
+    margin-bottom:12px;
+}
+
+/* ---------- TEXT ---------- */
 .card h3{
-    margin:15px 0 8px;
+    margin:10px 0 8px;
+    font-size:20px;
+    color:#0f172a;
 }
 .card p{
     font-size:14px;
-    color:#555;
+    color:#334155;
 }
 
-/* FOOTER */
+/* ---------- FOOTER ---------- */
 .footer{
     text-align:center;
     padding:20px;
     font-size:13px;
-    color:#666;
+    color:#475569;
 }
 </style>
 </head>
@@ -81,41 +137,49 @@ body{
 <div class="grid">
 
     <div class="card" onclick="location.href='aim.html'">
+        <div class="icon">🎯</div>
         <h3>Aim</h3>
         <p>Objective of the experiment</p>
     </div>
 
     <div class="card" onclick="location.href='theory.html'">
+        <div class="icon">📘</div>
         <h3>Theory</h3>
         <p>Concepts and equations</p>
     </div>
 
     <div class="card" onclick="location.href='pretest.html'">
+        <div class="icon">📝</div>
         <h3>Pretest</h3>
         <p>Check prior knowledge</p>
     </div>
 
     <div class="card" onclick="location.href='simulation.html'">
+        <div class="icon">🧪</div>
         <h3>Simulation</h3>
         <p>Interactive heat flow calculator</p>
     </div>
 
     <div class="card" onclick="location.href='posttest.html'">
+        <div class="icon">✅</div>
         <h3>Posttest</h3>
         <p>Assess understanding</p>
     </div>
 
     <div class="card" onclick="location.href='references.html'">
+        <div class="icon">📚</div>
         <h3>References</h3>
         <p>Books and resources</p>
     </div>
 
     <div class="card" onclick="location.href='contributors.html'">
+        <div class="icon">👥</div>
         <h3>Contributors</h3>
         <p>People involved</p>
     </div>
 
     <div class="card" onclick="location.href='feedback.html'">
+        <div class="icon">💬</div>
         <h3>Feedback</h3>
         <p>Share your experience</p>
     </div>
