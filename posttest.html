@@ -1,57 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Posttest – Virtual Lab</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Posttest – Heat Conduction</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Temporary inline CSS (will be common later) -->
-    <style>
-        body{
-            margin:0;
-            font-family:Arial, sans-serif;
-            background:#f4f8fc;
-        }
-        header{
-            background:#0b5ed7;
-            color:white;
-            padding:16px;
-        }
-        header a{
-            color:white;
-            text-decoration:none;
-            font-size:14px;
-        }
-        .container{
-            padding:20px;
-        }
-        h1{
-            margin-top:0;
-        }
-        .box{
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 6px 14px rgba(0,0,0,0.15);
-        }
-        .question{
-            margin-bottom:18px;
-        }
-        .question p{
-            margin:0 0 8px;
-            font-weight:bold;
-        }
-        label{
-            display:block;
-            margin-bottom:5px;
-            cursor:pointer;
-        }
-        .note{
-            margin-top:15px;
-            font-size:14px;
-            color:#555;
-        }
-    </style>
+<style>
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f4f8ff;
+    color:#1f2937;
+}
+
+/* HEADER */
+header{
+    background:#1e3a8a;
+    color:white;
+    padding:14px 20px;
+}
+header h1{
+    margin:0;
+    font-size:22px;
+}
+nav a{
+    color:white;
+    margin-right:18px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+/* CONTAINER */
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+/* QUESTION */
+.question{
+    background:#ffffff;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:18px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.1);
+}
+
+.option{
+    margin:8px 0;
+}
+
+/* BUTTON */
+button{
+    background:#1e3a8a;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    font-size:15px;
+    cursor:pointer;
+}
+button:hover{
+    background:#2563eb;
+}
+
+/* RESULTS */
+.results{
+    display:none;
+    margin-top:30px;
+}
+
+.score-box{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.15);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.score{
+    font-size:22px;
+    font-weight:bold;
+    color:#1e3a8a;
+}
+
+.correct{
+    background:#e6f7ef;
+    border-left:5px solid #22c55e;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+.incorrect{
+    background:#fdecea;
+    border-left:5px solid #ef4444;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+.recommend{
+    background:#fff7ed;
+    border-left:5px solid #f59e0b;
+    padding:14px;
+    border-radius:10px;
+    margin-top:20px;
+}
+</style>
 </head>
 
 <body>
@@ -59,44 +118,147 @@
 <header>
     <h1>Virtual Lab: Heat Conduction</h1>
     <nav>
-        <a href="home.html">Home</a>
-        <a href="aim.html">Aim</a>
-        <a href="theory.html">Theory</a>
-        <a href="index.html">Simulation</a>
+        <a href="index.html">Home</a>
+        <a href="simulation.html">Simulation</a>
+        <a href="posttest.html">Posttest</a>
     </nav>
 </header>
 
-
 <div class="container">
-    <div class="box">
 
-        <div class="question">
-            <p>1. What happens to heat flow if the thickness of the pipe increases?</p>
-            <label><input type="radio" name="q1"> Increases</label>
-            <label><input type="radio" name="q1"> Decreases</label>
-            <label><input type="radio" name="q1"> Remains constant</label>
-        </div>
+<h2>Posttest: Heat Conduction Analysis</h2>
+<p>Assess your understanding after completing the simulation.</p>
 
-        <div class="question">
-            <p>2. If thermal conductivity increases, the heat flow rate will:</p>
-            <label><input type="radio" name="q2"> Increase</label>
-            <label><input type="radio" name="q2"> Decrease</label>
-            <label><input type="radio" name="q2"> Become zero</label>
-        </div>
+<form id="quiz">
 
-        <div class="question">
-            <p>3. Heat flows in a cylindrical pipe from:</p>
-            <label><input type="radio" name="q3"> Outer surface to inner surface</label>
-            <label><input type="radio" name="q3"> Inner surface to outer surface</label>
-            <label><input type="radio" name="q3"> Along the length only</label>
-        </div>
-
-        <p class="note">
-            <i>This posttest helps evaluate your understanding after performing the simulation.</i>
-        </p>
-
-    </div>
+<!-- Q1 -->
+<div class="question">
+<h3>1. In the simulation, for a cylindrical pipe with inner radius 0.05 m and outer radius 0.1 m, which temperature profile is observed?</h3>
+<div class="option"><input type="radio" name="q1" value="A"> Linear temperature drop</div>
+<div class="option"><input type="radio" name="q1" value="B"> Logarithmic temperature drop</div>
+<div class="option"><input type="radio" name="q1" value="C"> Constant temperature</div>
+<div class="option"><input type="radio" name="q1" value="D"> Exponential increase</div>
 </div>
+
+<!-- Q2 -->
+<div class="question">
+<h3>2. If the length of a cylindrical pipe is doubled (all other parameters constant), what happens to heat transfer rate?</h3>
+<div class="option"><input type="radio" name="q2" value="A"> Doubles</div>
+<div class="option"><input type="radio" name="q2" value="B"> Halves</div>
+<div class="option"><input type="radio" name="q2" value="C"> Remains same</div>
+<div class="option"><input type="radio" name="q2" value="D"> Quadruples</div>
+</div>
+
+<!-- Q3 -->
+<div class="question">
+<h3>3. Calculate heat transfer rate for a steel pipe (k = 50 W/m·K), r₁ = 0.05 m, r₂ = 0.07 m, L = 10 m, T₁ = 200°C, T₂ = 50°C.</h3>
+<div class="option"><input type="radio" name="q3" value="A"> Approximately 1.4 MW</div>
+<div class="option"><input type="radio" name="q3" value="B"> Approximately 0.7 MW</div>
+<div class="option"><input type="radio" name="q3" value="C"> Approximately 2.8 MW</div>
+<div class="option"><input type="radio" name="q3" value="D"> Approximately 5.6 kW</div>
+</div>
+
+<!-- Q4 -->
+<div class="question">
+<h3>4. For two cylindrical pipes of same thickness but different inner radii, which statement is true?</h3>
+<div class="option"><input type="radio" name="q4" value="A"> Larger inner radius → higher heat transfer</div>
+<div class="option"><input type="radio" name="q4" value="B"> Smaller inner radius → higher heat transfer</div>
+<div class="option"><input type="radio" name="q4" value="C"> Both same</div>
+<div class="option"><input type="radio" name="q4" value="D"> Depends only on material</div>
+</div>
+
+<!-- Q5 -->
+<div class="question">
+<h3>5. Replacing copper (k = 400 W/m·K) with glass wool (k = 0.04 W/m·K) results in:</h3>
+<div class="option"><input type="radio" name="q5" value="A"> Heat transfer increases</div>
+<div class="option"><input type="radio" name="q5" value="B"> Heat transfer decreases significantly</div>
+<div class="option"><input type="radio" name="q5" value="C"> Linear temperature profile</div>
+<div class="option"><input type="radio" name="q5" value="D"> No change</div>
+</div>
+
+<!-- Q6 -->
+<div class="question">
+<h3>6. A steam pipe of 8 cm diameter at 150°C is insulated with 4 cm insulation (k = 0.05 W/m·K). Outer surface is at 40°C. Heat loss per meter per minute is:</h3>
+<div class="option"><input type="radio" name="q6" value="A"> 95.3 W/min</div>
+<div class="option"><input type="radio" name="q6" value="B"> 286 W/min</div>
+<div class="option"><input type="radio" name="q6" value="C"> 572 W/min</div>
+<div class="option"><input type="radio" name="q6" value="D"> 1144 W/min</div>
+</div>
+
+<!-- Q7 -->
+<div class="question">
+<h3>7. A copper pipe (k = 400 W/m·K) with inner diameter 5 cm and wall thickness 1 cm carries water at 90°C. Outer surface is at 70°C. Heat loss per meter is:</h3>
+<div class="option"><input type="radio" name="q7" value="A"> 175 kW/m</div>
+<div class="option"><input type="radio" name="q7" value="B"> 17.5 kW/m</div>
+<div class="option"><input type="radio" name="q7" value="C"> 175 W/m</div>
+<div class="option"><input type="radio" name="q7" value="D"> 1.75 MW/m</div>
+</div>
+
+<!-- Q8 -->
+<div class="question">
+<h3>8. An insulated steel pipe (k = 50 W/m·K) has r₁ = 3 cm, r₂ = 4 cm, insulation thickness = 5 cm (k = 0.1 W/m·K). T₁ = 200°C, T₂ = 30°C. Heat loss per meter is:</h3>
+<div class="option"><input type="radio" name="q8" value="A"> 125 W/m</div>
+<div class="option"><input type="radio" name="q8" value="B"> 250 W/m</div>
+<div class="option"><input type="radio" name="q8" value="C"> 500 W/m</div>
+<div class="option"><input type="radio" name="q8" value="D"> 1000 W/m</div>
+</div>
+
+<button type="button" onclick="submitQuiz()">Submit Posttest</button>
+</form>
+
+<div class="results" id="results">
+<div class="score-box">
+    <h3>Posttest Results</h3>
+    <div class="score" id="score"></div>
+</div>
+
+<div id="details"></div>
+
+<div class="recommend">
+<b>Learning Recommendation:</b><br>
+Review incorrect concepts and re-run the simulation for better understanding.
+</div>
+
+<button onclick="location.reload()">Retake Posttest</button>
+</div>
+
+</div>
+
+<script>
+const answers={
+q1:"B", q2:"A", q3:"A", q4:"A",
+q5:"B", q6:"B", q7:"B", q8:"B"
+};
+
+const explanations={
+q1:"Radial heat conduction in cylindrical pipes results in a logarithmic temperature distribution.",
+q2:"From Q = 2πkLΔT/ln(r₂/r₁), heat transfer is directly proportional to length L.",
+q3:"Using Fourier’s law gives Q ≈ 1.4 MW for given parameters.",
+q4:"Larger inner radius increases heat transfer area and reduces thermal resistance.",
+q5:"Replacing copper with insulation drastically reduces heat transfer due to low k.",
+q6:"Calculated heat loss ≈ 286 W/min considering insulation resistance.",
+q7:"Heat loss ≈ 17.5 kW/m from cylindrical conduction formula.",
+q8:"Total resistance gives heat loss ≈ 250 W/m."
+};
+
+function submitQuiz(){
+let score=0, details="";
+for(let i=1;i<=8;i++){
+    let q="q"+i;
+    let sel=document.querySelector(`input[name="${q}"]:checked`);
+    if(sel && sel.value===answers[q]){
+        score++;
+        details+=`<div class="correct"><b>Q${i}: Correct</b><br>${explanations[q]}</div>`;
+    }else{
+        details+=`<div class="incorrect"><b>Q${i}: Incorrect</b><br><b>Correct answer:</b> ${answers[q]}<br>${explanations[q]}</div>`;
+    }
+}
+document.getElementById("score").innerText=`${Math.round(score/8*100)}% Score`;
+document.getElementById("details").innerHTML=details;
+document.getElementById("results").style.display="block";
+window.scrollTo(0,document.body.scrollHeight);
+}
+</script>
 
 </body>
 </html>
