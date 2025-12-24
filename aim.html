@@ -1,63 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Aim – Virtual Lab</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Aim of the Experiment – Heat Conduction</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- We will later move styles to a common CSS file -->
-    <style>
-        body{
-            margin:0;
-            font-family:Arial, sans-serif;
-            background:#f4f8fc;
-        }
-        header{
-            background:#0b5ed7;
-            color:white;
-            padding:16px;
-        }
-        header a{
-            color:white;
-            text-decoration:none;
-            font-size:14px;
-        }
-        .container{
-            padding:20px;
-        }
-        h1{
-            margin-top:0;
-        }
-        .box{
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 6px 14px rgba(0,0,0,0.15);
-        }
-    </style>
+<style>
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f7fbff;
+    color:#1f2937;
+}
+
+/* HEADER */
+header{
+    background:#0b5ed7;
+    color:white;
+    padding:14px 20px;
+}
+header h1{
+    margin:0;
+    font-size:22px;
+}
+nav a{
+    color:white;
+    margin-right:15px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+/* MAIN CONTAINER */
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+/* TITLE */
+.section-title{
+    font-size:22px;
+    font-weight:bold;
+    color:#0b5ed7;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:2px solid #0b5ed7;
+    padding-bottom:8px;
+    margin-bottom:20px;
+}
+
+/* TWO COLUMN LAYOUT */
+.aim-grid{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap:40px;
+}
+
+/* LEFT CONTENT */
+.aim-text p{
+    font-size:15px;
+    line-height:1.6;
+    margin-bottom:16px;
+}
+
+.aim-text h3{
+    color:#0b5ed7;
+    margin-top:25px;
+    margin-bottom:10px;
+}
+
+.aim-text ul{
+    padding-left:18px;
+}
+.aim-text li{
+    margin-bottom:8px;
+    font-size:15px;
+}
+
+/* RIGHT DIAGRAM */
+.diagram-box{
+    text-align:center;
+}
+.diagram-box h4{
+    margin-bottom:12px;
+    color:#0b5ed7;
+}
+.diagram{
+    width:100%;
+    max-width:350px;
+    background:white;
+    border:1px solid #cbd5e1;
+    padding:12px;
+}
+.caption{
+    font-size:13px;
+    margin-top:8px;
+    color:#374151;
+    font-style:italic;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .aim-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
 </head>
 
 <body>
+
 <header>
     <h1>Virtual Lab: Heat Conduction</h1>
     <nav>
-        <a href="home.html">Home</a>
+        <a href="index.html">Home</a>
         <a href="aim.html">Aim</a>
         <a href="theory.html">Theory</a>
-        <a href="index.html">Simulation</a>
+        <a href="simulation.html">Simulation</a>
     </nav>
 </header>
 
-
 <div class="container">
-    <div class="box">
-        <p>
-            The aim of this experiment is to study heat conduction
-            through a cylindrical pipe using Fourier’s Law of heat
-            conduction and to calculate the rate of heat flow under
-            steady-state conditions.
-        </p>
+
+<div class="section-title">
+    ⦿ Aim of the Experiment
+</div>
+
+<div class="aim-grid">
+
+<!-- LEFT SIDE -->
+<div class="aim-text">
+    <p>
+        This virtual laboratory experiment aims to help engineering students
+        understand and visualize the fundamental principles of heat conduction
+        through different geometries, specifically plane walls and cylindrical
+        pipes, as described by Fourier’s Law of Heat Conduction.
+    </p>
+
+    <h3>Learning Objectives:</h3>
+    <ul>
+        <li>Understand the mechanism of heat conduction in solids.</li>
+        <li>Comprehend Fourier’s Law and its mathematical formulation for different geometries.</li>
+        <li>Analyze heat conduction through plane walls and cylindrical pipes.</li>
+        <li>Calculate heat transfer rates for insulated pipes.</li>
+        <li>Understand radial heat flow in cylindrical coordinates.</li>
+        <li>Explore practical applications in engineering systems.</li>
+    </ul>
+
+    <p>
+        By the end of this experiment, students should be able to predict
+        heat transfer rates through different materials and geometries, and
+        understand factors affecting thermal conduction in applications such
+        as building insulation, heat exchangers, and pipeline systems.
+    </p>
+</div>
+
+<!-- RIGHT SIDE -->
+<div class="diagram-box">
+    <h4>Cylindrical Pipe Heat Conduction</h4>
+
+    <!-- Replace src later with your actual image -->
+    <img src="diagram_placeholder.png" alt="Cylindrical Pipe Heat Conduction Diagram" class="diagram">
+
+    <div class="caption">
+        Fig. 1: Comparison of heat conduction through plane walls (linear)
+        and cylindrical pipes (radial)
     </div>
+</div>
+
+</div>
+
 </div>
 
 </body>
