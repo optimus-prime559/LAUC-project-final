@@ -1,52 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Pretest – Virtual Lab</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Pretest – Heat Conduction</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Temporary inline CSS (will be common later) -->
-    <style>
-        body{
-            margin:0;
-            font-family:Arial, sans-serif;
-            background:#f4f8fc;
-        }
-        header{
-            background:#0b5ed7;
-            color:white;
-            padding:16px;
-        }
-        header a{
-            color:white;
-            text-decoration:none;
-            font-size:14px;
-        }
-        .container{
-            padding:20px;
-        }
-        h1{
-            margin-top:0;
-        }
-        .box{
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 6px 14px rgba(0,0,0,0.15);
-        }
-        .question{
-            margin-bottom:18px;
-        }
-        .question p{
-            margin:0 0 8px;
-            font-weight:bold;
-        }
-        label{
-            display:block;
-            margin-bottom:5px;
-            cursor:pointer;
-        }
-    </style>
+<style>
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f4f8ff;
+    color:#1f2937;
+}
+
+/* HEADER */
+header{
+    background:#1e3a8a;
+    color:white;
+    padding:14px 20px;
+}
+header h1{
+    margin:0;
+    font-size:22px;
+}
+nav a{
+    color:white;
+    margin-right:18px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+/* CONTAINER */
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+/* QUESTION BOX */
+.question{
+    background:#ffffff;
+    padding:18px;
+    border-radius:12px;
+    margin-bottom:18px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.1);
+}
+
+.question h3{
+    margin-top:0;
+}
+
+.option{
+    margin:8px 0;
+}
+
+/* BUTTON */
+button{
+    background:#1e3a8a;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    font-size:15px;
+    cursor:pointer;
+}
+button:hover{
+    background:#2563eb;
+}
+
+/* RESULT BOX */
+.results{
+    display:none;
+    margin-top:30px;
+}
+
+.score-box{
+    background:#ffffff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.15);
+    margin-bottom:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.score{
+    font-size:22px;
+    font-weight:bold;
+    color:#1e3a8a;
+}
+
+.correct{
+    background:#e6f7ef;
+    border-left:5px solid #22c55e;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+.incorrect{
+    background:#fdecea;
+    border-left:5px solid #ef4444;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+.recommend{
+    background:#fff7ed;
+    border-left:5px solid #f59e0b;
+    padding:14px;
+    border-radius:10px;
+    margin-top:20px;
+}
+</style>
 </head>
 
 <body>
@@ -54,44 +122,125 @@
 <header>
     <h1>Virtual Lab: Heat Conduction</h1>
     <nav>
-        <a href="home.html">Home</a>
-        <a href="aim.html">Aim</a>
-        <a href="theory.html">Theory</a>
-        <a href="index.html">Simulation</a>
+        <a href="index.html">Home</a>
+        <a href="pretest.html">Pretest</a>
+        <a href="simulation.html">Simulation</a>
     </nav>
 </header>
 
-
 <div class="container">
-    <div class="box">
 
-        <div class="question">
-            <p>1. Fourier’s law is related to which mode of heat transfer?</p>
-            <label><input type="radio" name="q1"> Conduction</label>
-            <label><input type="radio" name="q1"> Convection</label>
-            <label><input type="radio" name="q1"> Radiation</label>
-        </div>
+<h2>Pretest: Heat Conduction Concepts</h2>
+<p>Test your existing knowledge of heat conduction before proceeding.</p>
 
-        <div class="question">
-            <p>2. The unit of thermal conductivity is:</p>
-            <label><input type="radio" name="q2"> W/m·K</label>
-            <label><input type="radio" name="q2"> J/kg·K</label>
-            <label><input type="radio" name="q2"> W/m²</label>
-        </div>
+<form id="quiz">
 
-        <div class="question">
-            <p>3. In steady-state heat conduction:</p>
-            <label><input type="radio" name="q3"> Temperature changes with time</label>
-            <label><input type="radio" name="q3"> Heat flow rate is constant</label>
-            <label><input type="radio" name="q3"> Heat flow is zero</label>
-        </div>
-
-        <p style="margin-top:20px;">
-            <i>This pretest is meant to assess your basic understanding before performing the experiment.</i>
-        </p>
-
-    </div>
+<!-- Q1 -->
+<div class="question">
+<h3>1. For radial heat conduction in cylindrical pipes, the temperature distribution is:</h3>
+<div class="option"><input type="radio" name="q1" value="A"> Linear</div>
+<div class="option"><input type="radio" name="q1" value="B"> Logarithmic</div>
+<div class="option"><input type="radio" name="q1" value="C"> Exponential</div>
+<div class="option"><input type="radio" name="q1" value="D"> Sinusoidal</div>
 </div>
+
+<!-- Q2 -->
+<div class="question">
+<h3>2. In cylindrical coordinates, heat conduction occurs in which direction?</h3>
+<div class="option"><input type="radio" name="q2" value="A"> Linear (x-direction)</div>
+<div class="option"><input type="radio" name="q2" value="B"> Radial (r-direction)</div>
+<div class="option"><input type="radio" name="q2" value="C"> Angular (θ-direction)</div>
+<div class="option"><input type="radio" name="q2" value="D"> Axial (z-direction)</div>
+</div>
+
+<!-- Q3 -->
+<div class="question">
+<h3>3. For heat conduction through a cylindrical pipe, the heat transfer area:</h3>
+<div class="option"><input type="radio" name="q3" value="A"> Remains constant</div>
+<div class="option"><input type="radio" name="q3" value="B"> Decreases with radius</div>
+<div class="option"><input type="radio" name="q3" value="C"> Increases with radius</div>
+<div class="option"><input type="radio" name="q3" value="D"> Is zero at the center</div>
+</div>
+
+<!-- Q4 -->
+<div class="question">
+<h3>4. The formula for heat conduction through a cylindrical pipe is:</h3>
+<div class="option"><input type="radio" name="q4" value="A"> Q = kA(T₁ − T₂)/L</div>
+<div class="option"><input type="radio" name="q4" value="B"> Q = 2πkL(T₁ − T₂)/ln(r₂/r₁)</div>
+<div class="option"><input type="radio" name="q4" value="C"> Q = hA(T₁ − T₂)</div>
+<div class="option"><input type="radio" name="q4" value="D"> Q = σA(T₁⁴ − T₂⁴)</div>
+</div>
+
+<!-- Q5 -->
+<div class="question">
+<h3>5. Which of the following is a key difference between plane wall and cylindrical pipe conduction?</h3>
+<div class="option"><input type="radio" name="q5" value="A"> Heat flow direction</div>
+<div class="option"><input type="radio" name="q5" value="B"> Temperature distribution</div>
+<div class="option"><input type="radio" name="q5" value="C"> Area variation with position</div>
+<div class="option"><input type="radio" name="q5" value="D"> All of the above</div>
+</div>
+
+<button type="button" onclick="submitQuiz()">Submit Pretest</button>
+</form>
+
+<!-- RESULTS -->
+<div class="results" id="results">
+<div class="score-box">
+    <h3>Pretest Results</h3>
+    <div class="score" id="score"></div>
+</div>
+
+<div id="details"></div>
+
+<div class="recommend">
+<b>Learning Recommendation:</b><br>
+Review the Theory section before proceeding to the simulation.
+</div>
+
+<button onclick="location.reload()">Retake Pretest</button>
+</div>
+
+</div>
+
+<script>
+const answers = {
+    q1:"B",
+    q2:"B",
+    q3:"C",
+    q4:"B",
+    q5:"D"
+};
+
+const explanations = {
+    q1:"Temperature distribution in cylindrical heat conduction is logarithmic.",
+    q2:"Heat flows radially from inner surface to outer surface in cylindrical pipes.",
+    q3:"Heat transfer area A(r) = 2πrL increases with radius.",
+    q4:"Correct formula: Q = 2πkL(T₁ − T₂)/ln(r₂/r₁).",
+    q5:"Plane walls and cylindrical pipes differ in flow direction, temperature profile, and area variation."
+};
+
+function submitQuiz(){
+    let score = 0;
+    let total = 5;
+    let detailsHTML = "";
+
+    for(let i=1;i<=5;i++){
+        const q = "q"+i;
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        if(selected && selected.value === answers[q]){
+            score++;
+            detailsHTML += `<div class="correct"><b>Q${i}: Correct</b><br>${explanations[q]}</div>`;
+        }else{
+            detailsHTML += `<div class="incorrect"><b>Q${i}: Incorrect</b><br>Correct answer: ${answers[q]}<br>${explanations[q]}</div>`;
+        }
+    }
+
+    document.getElementById("score").innerText = `${Math.round(score/total*100)}% Score`;
+    document.getElementById("details").innerHTML = detailsHTML;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo(0,document.body.scrollHeight);
+}
+</script>
 
 </body>
 </html>
