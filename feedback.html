@@ -1,74 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Feedback – Virtual Lab</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Feedback – Heat Conduction Virtual Lab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Temporary inline CSS (will be common later) -->
-    <style>
-        body{
-            margin:0;
-            font-family:Arial, sans-serif;
-            background:#f4f8fc;
-        }
-        header{
-            background:#0b5ed7;
-            color:white;
-            padding:16px;
-        }
-        header a{
-            color:white;
-            text-decoration:none;
-            font-size:14px;
-        }
-        .container{
-            padding:20px;
-        }
-        h1{
-            margin-top:0;
-        }
-        .box{
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 6px 14px rgba(0,0,0,0.15);
-        }
-        label{
-            display:block;
-            margin-top:12px;
-            font-weight:bold;
-        }
-        input, textarea{
-            width:100%;
-            padding:8px;
-            margin-top:5px;
-            border-radius:6px;
-            border:1px solid #ccc;
-            font-family:Arial, sans-serif;
-        }
-        textarea{
-            resize:vertical;
-        }
-        button{
-            margin-top:15px;
-            padding:10px 16px;
-            border:none;
-            background:#0b5ed7;
-            color:white;
-            border-radius:6px;
-            cursor:pointer;
-            font-size:14px;
-        }
-        button:hover{
-            opacity:0.9;
-        }
-        .note{
-            margin-top:15px;
-            font-size:13px;
-            color:#555;
-        }
-    </style>
+<style>
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f4f8ff;
+    color:#1f2937;
+}
+
+/* HEADER */
+header{
+    background:#1e3a8a;
+    color:white;
+    padding:14px 20px;
+}
+header h1{
+    margin:0;
+    font-size:22px;
+}
+nav a{
+    color:white;
+    margin-right:18px;
+    text-decoration:none;
+    font-weight:600;
+}
+nav a:hover{
+    text-decoration:underline;
+}
+
+/* CONTAINER */
+.container{
+    max-width:800px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* FORM */
+label{
+    display:block;
+    font-weight:600;
+    margin-top:16px;
+}
+input, textarea{
+    width:100%;
+    padding:10px;
+    margin-top:6px;
+    border-radius:8px;
+    border:1px solid #cbd5e1;
+    font-size:14px;
+}
+textarea{
+    resize:vertical;
+    min-height:120px;
+}
+
+/* BUTTON */
+button{
+    margin-top:20px;
+    width:100%;
+    background:#1e3a8a;
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    font-size:15px;
+    cursor:pointer;
+}
+button:hover{
+    background:#2563eb;
+}
+
+/* SUCCESS MESSAGE */
+.success{
+    display:none;
+    margin-top:20px;
+    background:#e6f7ef;
+    border-left:5px solid #22c55e;
+    padding:14px;
+    border-radius:8px;
+    font-weight:600;
+}
+
+/* VIEW FEEDBACK */
+.view-btn{
+    margin-top:15px;
+    background:#0f172a;
+}
+.feedback-list{
+    margin-top:20px;
+}
+.feedback-item{
+    background:#eef5ff;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+.feedback-item b{
+    color:#1e3a8a;
+}
+</style>
 </head>
 
 <body>
@@ -76,44 +119,85 @@
 <header>
     <h1>Virtual Lab: Heat Conduction</h1>
     <nav>
-        <a href="home.html">Home</a>
-        <a href="aim.html">Aim</a>
-        <a href="theory.html">Theory</a>
-        <a href="index.html">Simulation</a>
+        <a href="index.html">Home</a>
+        <a href="feedback.html">Feedback</a>
     </nav>
 </header>
 
 <div class="container">
-    <div class="box">
 
-        <p>
-            Your feedback is valuable and helps us improve the quality
-            of this virtual laboratory experiment.
-        </p>
+<div class="card">
+    <h2>💬 Feedback</h2>
+    <p>
+        We value your feedback to improve this virtual laboratory.
+        Please share your experience and suggestions.
+    </p>
 
-        <form>
-            <label for="name">Name (optional)</label>
-            <input type="text" id="name" placeholder="Enter your name">
+    <form id="feedbackForm">
+        <label>Your Name (Optional):</label>
+        <input type="text" id="name" placeholder="Enter your name">
 
-            <label for="email">Email (optional)</label>
-            <input type="email" id="email" placeholder="Enter your email">
+        <label>Your Email (Optional):</label>
+        <input type="email" id="email" placeholder="Enter your email">
 
-            <label for="feedback">Your Feedback</label>
-            <textarea id="feedback" rows="5"
-                placeholder="Write your suggestions or comments here"></textarea>
+        <label>Your Feedback:</label>
+        <textarea id="message" placeholder="Please share your thoughts, suggestions, or issues encountered." required></textarea>
 
-            <button type="submit">Submit Feedback</button>
-        </form>
+        <button type="submit">Submit Feedback</button>
+    </form>
 
-        <p class="note">
-            <i>
-                Note: This feedback form is for academic demonstration only
-                and does not store data.
-            </i>
-        </p>
-
+    <div class="success" id="successMsg">
+        ✅ Thank you! Your feedback has been saved successfully.
     </div>
+
+    <button class="view-btn" onclick="showFeedback()">View Submitted Feedback</button>
+
+    <div class="feedback-list" id="feedbackList"></div>
 </div>
+
+</div>
+
+<script>
+document.getElementById("feedbackForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const feedback = {
+        name: document.getElementById("name").value || "Anonymous",
+        email: document.getElementById("email").value || "Not provided",
+        message: document.getElementById("message").value,
+        time: new Date().toLocaleString()
+    };
+
+    let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+    feedbacks.push(feedback);
+    localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+
+    document.getElementById("successMsg").style.display = "block";
+    document.getElementById("feedbackForm").reset();
+});
+
+function showFeedback(){
+    const list = document.getElementById("feedbackList");
+    list.innerHTML = "";
+
+    const feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+
+    if(feedbacks.length === 0){
+        list.innerHTML = "<p>No feedback submitted yet.</p>";
+        return;
+    }
+
+    feedbacks.forEach(fb=>{
+        list.innerHTML += `
+            <div class="feedback-item">
+                <b>${fb.name}</b> (${fb.email})<br>
+                <small>${fb.time}</small>
+                <p>${fb.message}</p>
+            </div>
+        `;
+    });
+}
+</script>
 
 </body>
 </html>
