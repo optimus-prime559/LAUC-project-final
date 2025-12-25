@@ -21,9 +21,10 @@ header{
     text-align:center;
 }
 
+/* layout */
 .container{
     display:grid;
-    grid-template-columns:1fr 1.5fr 1.5fr;
+    grid-template-columns:1fr 1.3fr 1.4fr;
     gap:16px;
     padding:16px;
 }
@@ -42,27 +43,33 @@ h3{
     padding-bottom:6px;
 }
 
+/* input alignment */
+.input-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:8px;
+}
+.input-row input{flex:2; padding:8px;}
+.input-row select{flex:1; padding:8px;}
+
 input, select{
     width:100%;
-    padding:8px;
-    margin:6px 0;
 }
 
-button{
-    width:100%;
-    padding:10px;
-    background:#fd7e14;
-    color:white;
-    border:none;
-    font-weight:bold;
-    cursor:pointer;
-    border-radius:8px;
-}
-
+/* highlighted result */
 .result{
-    background:rgba(255,255,255,0.7);
-    padding:12px;
-    border-left:5px solid #06b6d4;
+    margin-top:12px;
+    padding:14px;
+    background:linear-gradient(135deg,#ffffff,#e0f2fe);
+    border-left:6px solid #06b6d4;
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.2);
+    animation:fadeUp 0.25s ease;
+}
+
+@keyframes fadeUp{
+    from{opacity:0; transform:translateY(8px);}
+    to{opacity:1; transform:translateY(0);}
 }
 
 canvas{
@@ -71,9 +78,7 @@ canvas{
     border-radius:10px;
 }
 
-.small{
-    font-size:13px;
-}
+.small{font-size:13px;}
 </style>
 </head>
 
@@ -90,16 +95,22 @@ canvas{
 <h3>Input Parameters</h3>
 
 <label>Inner Radius</label>
-<input id="r1" value="5">
-<select id="r1unit"><option value="0.01">cm</option><option value="1">m</option></select>
+<div class="input-row">
+    <input id="r1" value="5">
+    <select id="r1unit"><option value="0.01">cm</option><option value="1">m</option></select>
+</div>
 
 <label>Outer Radius</label>
-<input id="r2" value="7">
-<select id="r2unit"><option value="0.01">cm</option><option value="1">m</option></select>
+<div class="input-row">
+    <input id="r2" value="7">
+    <select id="r2unit"><option value="0.01">cm</option><option value="1">m</option></select>
+</div>
 
 <label>Radius for Temperature</label>
-<input id="rq" value="6">
-<select id="rqunit"><option value="0.01">cm</option><option value="1">m</option></select>
+<div class="input-row">
+    <input id="rq" value="6">
+    <select id="rqunit"><option value="0.01">cm</option><option value="1">m</option></select>
+</div>
 
 <label>Inner Temperature (°C)</label>
 <input id="T1" value="200">
@@ -121,21 +132,23 @@ canvas{
     <option value="W">Watt</option>
     <option value="cal">cal/sec</option>
 </select>
-
-<button onclick="calculate()">Calculate</button>
 </div>
 
-<!-- DIAGRAM -->
+<!-- PIPE + MAIN RESULTS -->
 <div class="panel">
 <h3>Pipe Cross-Section</h3>
 <canvas id="pipeCanvas" width="300" height="300"></canvas>
-<p class="small">Red = inner hot surface | Blue dashed = selected radius</p>
+
+<div id="results" class="result"></div>
+
+<p class="small">
+Red = inner hot surface | Blue dashed = selected radius
+</p>
 </div>
 
-<!-- RESULTS -->
+<!-- GRAPHS -->
 <div class="panel">
-<h3>Results & Graphs</h3>
-<div id="results" class="result"></div>
+<h3>Graphs</h3>
 <canvas id="tempChart"></canvas>
 <canvas id="timeChart"></canvas>
 </div>
@@ -143,8 +156,7 @@ canvas{
 </div>
 
 <script>
-let tempChart=null;
-let timeChart=null;
+let tempChart=null, timeChart=null;
 
 function drawPipe(r1,r2,rq){
     const c=document.getElementById("pipeCanvas");
@@ -154,9 +166,7 @@ function drawPipe(r1,r2,rq){
     const cx=150, cy=150;
     const scale=110/r2;
 
-    const R1=r1*scale;
-    const R2=r2*scale;
-    const RQ=rq*scale;
+    const R1=r1*scale, R2=r2*scale, RQ=rq*scale;
 
     const grad=ctx.createRadialGradient(cx,cy,R1,cx,cy,R2);
     grad.addColorStop(0,"#ff5722");
@@ -173,25 +183,6 @@ function drawPipe(r1,r2,rq){
     ctx.fill();
     ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(cx,cy);
-    ctx.lineTo(cx+R1,cy);
-    ctx.moveTo(cx,cy);
-    ctx.lineTo(cx+R2,cy);
-    ctx.stroke();
-
-    /* 🔧 FIX: HIGH-CONTRAST TEXT */
-    ctx.font="14px Arial";
-    ctx.lineWidth=3;
-    ctx.strokeStyle="white";   // outline for contrast
-    ctx.fillStyle="black";     // main text color
-
-    ctx.strokeText("r = "+r1.toFixed(3)+" m",cx+R1/2-30,cy-5);
-    ctx.fillText("r = "+r1.toFixed(3)+" m",cx+R1/2-30,cy-5);
-
-    ctx.strokeText("r = "+r2.toFixed(3)+" m",cx+R2/2-30,cy+15);
-    ctx.fillText("r = "+r2.toFixed(3)+" m",cx+R2/2-30,cy+15);
-
     ctx.setLineDash([6,4]);
     ctx.beginPath();
     ctx.arc(cx,cy,RQ,0,2*Math.PI);
@@ -199,36 +190,37 @@ function drawPipe(r1,r2,rq){
     ctx.lineWidth=2;
     ctx.stroke();
     ctx.setLineDash([]);
+
+    ctx.font="14px Arial";
+    ctx.fillStyle="#000";
+    ctx.fillText("r₁ = "+r1.toFixed(3)+" m",cx+R1/2-30,cy-8);
+    ctx.fillText("r₂ = "+r2.toFixed(3)+" m",cx+R2/2-30,cy+18);
+    ctx.fillText("r = "+rq.toFixed(3)+" m",cx-40,cy-RQ-6);
 }
 
 function calculate(){
-    const r1=document.getElementById("r1").value * document.getElementById("r1unit").value;
-    const r2=document.getElementById("r2").value * document.getElementById("r2unit").value;
-    const rq=document.getElementById("rq").value * document.getElementById("rqunit").value;
-
-    const T1=Number(document.getElementById("T1").value);
-    const T2=Number(document.getElementById("T2").value);
-    const k=Number(document.getElementById("k").value);
-    const L=Number(document.getElementById("L").value);
-    const time=Number(document.getElementById("time").value);
-    const unit=document.getElementById("unit").value;
+    const r1=+r1unit.value*+document.getElementById("r1").value;
+    const r2=+r2unit.value*+document.getElementById("r2").value;
+    const rq=+rqunit.value*+document.getElementById("rq").value;
 
     if(rq<r1 || rq>r2){
-        document.getElementById("results").innerHTML="<b style='color:red'>Selected radius must lie between inner and outer radius</b>";
+        results.innerHTML="<b style='color:red'>Selected radius must lie between r₁ and r₂</b>";
         return;
     }
 
-    const Q=(2*Math.PI*k*L*(T1-T2))/Math.log(r2/r1);
-    const Qout=(unit==="cal") ? Q/4.186 : Q;
+    const T1v=+T1.value, T2v=+T2.value;
+    const kv=+k.value, Lv=+L.value, timev=+time.value;
 
-    const Tr=T1+(T2-T1)*Math.log(rq/r1)/Math.log(r2/r1);
-    const Qrq=Qout*Math.log(rq/r1)/Math.log(r2/r1);
+    const Q=(2*Math.PI*kv*Lv*(T1v-T2v))/Math.log(r2/r1);
+    const Qout=(unit.value==="cal")?Q/4.186:Q;
 
-    document.getElementById("results").innerHTML=
-        "<b>Heat Flow Rate:</b> "+Qout.toFixed(3)+" "+(unit==="cal"?"cal/sec":"W")+"<br>"+
-        "<b>Heat Transferred after "+time+" s:</b> "+(Qout*time).toFixed(3)+"<br>"+
-        "<b>Heat Transferred up to selected radius:</b> "+Qrq.toFixed(3)+"<br>"+
-        "<b>Temperature at selected radius:</b> "+Tr.toFixed(2)+" °C";
+    const Tr=T1v+(T2v-T1v)*Math.log(rq/r1)/Math.log(r2/r1);
+
+    results.innerHTML=`
+<b>Heat Flow Rate:</b> ${Qout.toFixed(3)} ${unit.value==="cal"?"cal/sec":"W"}<br>
+<b>Total Heat Transferred (${timev}s):</b> ${(Qout*timev).toFixed(2)}<br>
+<b>Temperature at selected radius:</b> ${Tr.toFixed(2)} °C
+`;
 
     drawPipe(r1,r2,rq);
 
@@ -236,29 +228,32 @@ function calculate(){
     for(let i=0;i<=20;i++){
         const r=r1+(r2-r1)*i/20;
         rArr.push(r.toFixed(4));
-        tArr.push(T1+(T2-T1)*Math.log(r/r1)/Math.log(r2/r1));
+        tArr.push(T1v+(T2v-T1v)*Math.log(r/r1)/Math.log(r2/r1));
     }
 
     if(tempChart) tempChart.destroy();
-    tempChart=new Chart(document.getElementById("tempChart"),{
+    tempChart=new Chart(tempChartCanvas,{
         type:"line",
         data:{labels:rArr,datasets:[{label:"Temperature (°C)",data:tArr,borderColor:"#ff5722"}]},
-        options:{scales:{
-            x:{title:{display:true,text:"Radius (m)"}},
-            y:{title:{display:true,text:"Temperature (°C)"}}
-        }}
+        options:{scales:{x:{title:{display:true,text:"Radius (m)"}},y:{title:{display:true,text:"Temperature (°C)"}}}}
     });
 
     if(timeChart) timeChart.destroy();
-    timeChart=new Chart(document.getElementById("timeChart"),{
+    timeChart=new Chart(timeChartCanvas,{
         type:"line",
-        data:{labels:[0,time],datasets:[{label:"Heat Flow",data:[Qout,Qout],borderColor:"#0b5ed7"}]},
-        options:{scales:{
-            x:{title:{display:true,text:"Time (s)"}},
-            y:{title:{display:true,text:"Heat Flow ("+(unit==="cal"?"cal/sec":"W")+")"}}
-        }}
+        data:{labels:[0,timev],datasets:[{label:"Heat Flow",data:[Qout,Qout],borderColor:"#0b5ed7"}]},
+        options:{scales:{x:{title:{display:true,text:"Time (s)"}},y:{title:{display:true,text:"Heat Flow"}}}}
     });
 }
+
+const tempChartCanvas=document.getElementById("tempChart");
+const timeChartCanvas=document.getElementById("timeChart");
+
+["r1","r2","rq","T1","T2","k","L","time","unit","r1unit","r2unit","rqunit"]
+.forEach(id=>{
+    document.getElementById(id).addEventListener("input",calculate);
+    document.getElementById(id).addEventListener("change",calculate);
+});
 
 calculate();
 </script>
