@@ -2,202 +2,40 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Feedback – Heat Conduction Virtual Lab</title>
+<title>Feedback – Virtual Lab</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
-    margin:0;
-    font-family: Arial, Helvetica, sans-serif;
-    background:#f4f8ff;
-    color:#1f2937;
+    font-family:Arial, sans-serif;
+    background:#eef6ff;
 }
 
-/* HEADER */
-header{
-    background:#1e3a8a;
-    color:white;
-    padding:14px 20px;
-}
-header h1{
-    margin:0;
-    font-size:22px;
-}
-nav a{
-    color:white;
-    margin-right:18px;
-    text-decoration:none;
-    font-weight:600;
-}
-nav a:hover{
-    text-decoration:underline;
-}
-
-/* CONTAINER */
 .container{
-    max-width:800px;
-    margin:auto;
-    padding:30px 20px;
-}
-
-/* CARD */
-.card{
+    max-width:900px;
+    margin:30px auto;
     background:white;
-    padding:25px;
-    border-radius:14px;
-    box-shadow:0 6px 14px rgba(0,0,0,0.15);
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 
-/* FORM */
-label{
-    display:block;
-    font-weight:600;
-    margin-top:16px;
-}
-input, textarea{
-    width:100%;
-    padding:10px;
-    margin-top:6px;
-    border-radius:8px;
-    border:1px solid #cbd5e1;
-    font-size:14px;
-}
-textarea{
-    resize:vertical;
-    min-height:120px;
-}
-
-/* BUTTON */
-button{
-    margin-top:20px;
-    width:100%;
-    background:#1e3a8a;
-    color:white;
-    border:none;
-    padding:12px;
-    border-radius:8px;
-    font-size:15px;
-    cursor:pointer;
-}
-button:hover{
-    background:#2563eb;
-}
-
-/* SUCCESS MESSAGE */
-.success{
-    display:none;
-    margin-top:20px;
-    background:#e6f7ef;
-    border-left:5px solid #22c55e;
-    padding:14px;
-    border-radius:8px;
-    font-weight:600;
-}
-
-/* VIEW FEEDBACK */
-.view-btn{
-    margin-top:15px;
-    background:#0f172a;
-}
-.feedback-list{
-    margin-top:20px;
-}
-.feedback-item{
-    background:#eef5ff;
-    padding:12px;
-    border-radius:8px;
-    margin-bottom:10px;
-}
-.feedback-item b{
-    color:#1e3a8a;
+h2{
+    text-align:center;
+    color:#0b5ed7;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Virtual Lab: Heat Conduction</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="feedback.html">Feedback</a>
-    </nav>
-</header>
-
-<div class="container">
-
-<div class="card">
-    <h2>💬 Feedback</h2>
-    <p>
-        We value your feedback to improve this virtual laboratory.
-        Please share your experience and suggestions.
-    </p>
-
-    <form id="feedbackForm">
-        <label>Your Name (Optional):</label>
-        <input type="text" id="name" placeholder="Enter your name">
-
-        <label>Your Email (Optional):</label>
-        <input type="email" id="email" placeholder="Enter your email">
-
-        <label>Your Feedback:</label>
-        <textarea id="message" placeholder="Please share your thoughts, suggestions, or issues encountered." required></textarea>
-
-        <button type="submit">Submit Feedback</button>
-    </form>
-
-    <div class="success" id="successMsg">
-        ✅ Thank you! Your feedback has been saved successfully.
-    </div>
-
-    <button class="view-btn" onclick="showFeedback()">View Submitted Feedback</button>
-
-    <div class="feedback-list" id="feedbackList"></div>
+<div class="form-wrapper">
+    <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSc_qQ0uzY86n221Kk86zZ29nZi3C65cqDF2NB8j_cU6OydB-A/viewform?embedded=true"
+        loading="lazy"
+        allowfullscreen>
+    </iframe>
 </div>
-
-</div>
-
-<script>
-document.getElementById("feedbackForm").addEventListener("submit", function(e){
-    e.preventDefault();
-
-    const feedback = {
-        name: document.getElementById("name").value || "Anonymous",
-        email: document.getElementById("email").value || "Not provided",
-        message: document.getElementById("message").value,
-        time: new Date().toLocaleString()
-    };
-
-    let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
-    feedbacks.push(feedback);
-    localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
-
-    document.getElementById("successMsg").style.display = "block";
-    document.getElementById("feedbackForm").reset();
-});
-
-function showFeedback(){
-    const list = document.getElementById("feedbackList");
-    list.innerHTML = "";
-
-    const feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
-
-    if(feedbacks.length === 0){
-        list.innerHTML = "<p>No feedback submitted yet.</p>";
-        return;
-    }
-
-    feedbacks.forEach(fb=>{
-        list.innerHTML += `
-            <div class="feedback-item">
-                <b>${fb.name}</b> (${fb.email})<br>
-                <small>${fb.time}</small>
-                <p>${fb.message}</p>
-            </div>
-        `;
-    });
-}
-</script>
 
 </body>
 </html>
