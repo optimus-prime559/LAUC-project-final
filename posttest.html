@@ -13,16 +13,12 @@ body{
     color:#1f2937;
 }
 
-/* HEADER */
 header{
     background:#1e3a8a;
     color:white;
     padding:14px 20px;
 }
-header h1{
-    margin:0;
-    font-size:22px;
-}
+header h1{margin:0;font-size:22px;}
 nav a{
     color:white;
     margin-right:18px;
@@ -30,14 +26,12 @@ nav a{
     font-weight:600;
 }
 
-/* CONTAINER */
 .container{
     max-width:1000px;
     margin:auto;
     padding:30px 20px;
 }
 
-/* QUESTION */
 .question{
     background:#ffffff;
     padding:20px;
@@ -46,11 +40,8 @@ nav a{
     box-shadow:0 6px 14px rgba(0,0,0,0.1);
 }
 
-.option{
-    margin:8px 0;
-}
+.option{margin:8px 0;}
 
-/* BUTTON */
 button{
     background:#1e3a8a;
     color:white;
@@ -60,15 +51,9 @@ button{
     font-size:15px;
     cursor:pointer;
 }
-button:hover{
-    background:#2563eb;
-}
+button:hover{background:#2563eb;}
 
-/* RESULTS */
-.results{
-    display:none;
-    margin-top:30px;
-}
+.results{display:none;margin-top:30px;}
 
 .score-box{
     background:white;
@@ -125,114 +110,100 @@ button:hover{
 </header>
 
 <div class="container">
-
 <h2>Posttest: Heat Conduction Analysis</h2>
 <p>Assess your understanding after completing the simulation.</p>
 
 <form id="quiz">
 
-<!-- Questions unchanged (same as yours) -->
-<!-- Q1 to Q8 exactly same -->
-<!-- (Keeping them omitted here for brevity — use your existing HTML questions block) -->
+<!-- Q1 -->
+<div class="question">
+<h3>1. What temperature profile is observed in cylindrical pipe conduction?</h3>
+<div class="option"><input type="radio" name="q1" value="A"> Linear</div>
+<div class="option"><input type="radio" name="q1" value="B"> Logarithmic</div>
+<div class="option"><input type="radio" name="q1" value="C"> Constant</div>
+<div class="option"><input type="radio" name="q1" value="D"> Exponential</div>
+</div>
+
+<!-- Q2 -->
+<div class="question">
+<h3>2. If pipe length is doubled, heat transfer rate:</h3>
+<div class="option"><input type="radio" name="q2" value="A"> Doubles</div>
+<div class="option"><input type="radio" name="q2" value="B"> Halves</div>
+<div class="option"><input type="radio" name="q2" value="C"> Remains same</div>
+<div class="option"><input type="radio" name="q2" value="D"> Quadruples</div>
+</div>
+
+<!-- Q3 -->
+<div class="question">
+<h3>3. Steel pipe (k=50 W/m·K, r₁=0.05 m, r₂=0.07 m, L=10 m, ΔT=150°C). Heat transfer rate?</h3>
+<div class="option"><input type="radio" name="q3" value="A"> 1.4 MW</div>
+<div class="option"><input type="radio" name="q3" value="B"> 0.7 MW</div>
+<div class="option"><input type="radio" name="q3" value="C"> 2.8 MW</div>
+<div class="option"><input type="radio" name="q3" value="D"> 5.6 kW</div>
+</div>
+
+<!-- Q4 -->
+<div class="question">
+<h3>4. Larger inner radius results in:</h3>
+<div class="option"><input type="radio" name="q4" value="A"> Higher heat transfer</div>
+<div class="option"><input type="radio" name="q4" value="B"> Lower heat transfer</div>
+<div class="option"><input type="radio" name="q4" value="C"> Same heat transfer</div>
+<div class="option"><input type="radio" name="q4" value="D"> Depends only on material</div>
+</div>
+
+<!-- Q5 -->
+<div class="question">
+<h3>5. Replacing copper with glass wool causes:</h3>
+<div class="option"><input type="radio" name="q5" value="A"> Increase in heat transfer</div>
+<div class="option"><input type="radio" name="q5" value="B"> Significant decrease</div>
+<div class="option"><input type="radio" name="q5" value="C"> Linear temperature</div>
+<div class="option"><input type="radio" name="q5" value="D"> No change</div>
+</div>
 
 <button type="button" onclick="submitQuiz()">Submit Posttest</button>
 </form>
 
 <div class="results" id="results">
 <div class="score-box">
-    <h3>Posttest Results</h3>
-    <div class="score" id="score"></div>
+<h3>Posttest Results</h3>
+<div class="score" id="score"></div>
 </div>
-
 <div id="details"></div>
 
 <div class="recommend">
-<b>Learning Recommendation:</b><br>
-If your score is below 70%, revise the Theory section and repeat the simulation using different parameters.
+<b>Recommendation:</b> Review Theory and re-run simulation if score is below 70%.
 </div>
 
 <button onclick="location.reload()">Retake Posttest</button>
 </div>
-
 </div>
 
 <script>
-const answers={
-q1:"B", q2:"A", q3:"A", q4:"A",
-q5:"B", q6:"B", q7:"B", q8:"B"
-};
+const answers={q1:"B",q2:"A",q3:"A",q4:"A",q5:"B"};
 
 const explanations={
-q1:`In cylindrical pipes, the governing heat equation leads to:
-T(r) = T₁ + (T₂ − T₁) ln(r/r₁) / ln(r₂/r₁)
-Hence, the temperature distribution is logarithmic.`,
-
-q2:`From Fourier’s law for cylindrical pipes:
-Q = 2πkL(T₁ − T₂) / ln(r₂/r₁)
-Heat transfer rate Q is directly proportional to pipe length L.
-Therefore, doubling L doubles Q.`,
-
-q3:`Using:
-Q = 2πkL(T₁ − T₂) / ln(r₂/r₁)
-
-Substituting:
-k = 50 W/m·K, L = 10 m,
-T₁ − T₂ = 150°C,
-ln(0.07/0.05) ≈ 0.336
-
-Q ≈ 1.4 MW
-Hence, option A is correct.`,
-
-q4:`For cylindrical conduction:
-Thermal resistance R = ln(r₂/r₁) / (2πkL)
-
-Larger inner radius → larger heat transfer area → lower resistance.
-Hence, higher heat transfer occurs for larger inner radius.`,
-
-q5:`Thermal conductivity appears in numerator of Fourier’s law.
-Replacing copper (k = 400) with glass wool (k = 0.04) reduces heat transfer by ~10,000 times.
-Thus, heat transfer decreases significantly.`,
-
-q6:`Inner radius r₁ = 0.04 m
-Outer radius r₂ = 0.08 m
-ΔT = 150 − 40 = 110°C
-
-Q = 2πkLΔT / ln(r₂/r₁)
-Q ≈ 4.77 W
-
-Per minute: 4.77 × 60 ≈ 286 W/min
-Correct option: B`,
-
-q7:`r₁ = 0.025 m
-r₂ = 0.035 m
-ΔT = 20°C
-
-Q ≈ 17.5 kW/m
-Correct answer is option B.`,
-
-q8:`Total resistance = R_steel + R_insulation
-
-R_total ≈ 0.68 K/W
-Q = ΔT / R ≈ 170 / 0.68 ≈ 250 W/m
-Hence, option B is correct.`
+q1:"Cylindrical heat conduction results in logarithmic temperature distribution.",
+q2:"From Q ∝ L, doubling length doubles heat transfer.",
+q3:"Using Q = 2πkLΔT / ln(r₂/r₁) ≈ 1.4 MW.",
+q4:"Larger radius increases heat transfer area and lowers resistance.",
+q5:"Glass wool has very low thermal conductivity."
 };
 
 function submitQuiz(){
 let score=0, details="";
-for(let i=1;i<=8;i++){
+for(let i=1;i<=5;i++){
     let q="q"+i;
     let sel=document.querySelector(`input[name="${q}"]:checked`);
     if(sel && sel.value===answers[q]){
         score++;
         details+=`<div class="correct"><b>Q${i}: Correct</b><br>${explanations[q]}</div>`;
     }else{
-        details+=`<div class="incorrect"><b>Q${i}: Incorrect</b><br><b>Correct Answer:</b> ${answers[q]}<br>${explanations[q]}</div>`;
+        details+=`<div class="incorrect"><b>Q${i}: Incorrect</b><br>${explanations[q]}</div>`;
     }
 }
-document.getElementById("score").innerText=`${Math.round(score/8*100)}% Score`;
+document.getElementById("score").innerText=`${Math.round(score/5*100)}%`;
 document.getElementById("details").innerHTML=details;
 document.getElementById("results").style.display="block";
-window.scrollTo(0,document.body.scrollHeight);
 }
 </script>
 
