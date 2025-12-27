@@ -10,20 +10,17 @@ body{
     margin:0;
     font-family: Arial, Helvetica, sans-serif;
     background:#f4f8ff;
-    color:#1f2937;
+    color:#111827;
 }
 
 header{
     background:#1e3a8a;
     color:white;
-    padding:14px 20px;
+    padding:16px 20px;
 }
-header h1{margin:0;font-size:22px;}
-nav a{
-    color:white;
-    margin-right:18px;
-    text-decoration:none;
-    font-weight:600;
+header h1{
+    margin:0;
+    font-size:22px;
 }
 
 .container{
@@ -32,16 +29,29 @@ nav a{
     padding:30px 20px;
 }
 
+h2{
+    margin-top:0;
+}
+
+/* QUESTION BOX */
 .question{
-    background:#ffffff;
+    background:white;
     padding:20px;
     border-radius:12px;
-    margin-bottom:18px;
+    margin-bottom:20px;
     box-shadow:0 6px 14px rgba(0,0,0,0.1);
 }
 
-.option{margin:8px 0;}
+.question h3{
+    margin-top:0;
+    font-size:16px;
+}
 
+.option{
+    margin:8px 0;
+}
+
+/* BUTTON */
 button{
     background:#1e3a8a;
     color:white;
@@ -51,9 +61,15 @@ button{
     font-size:15px;
     cursor:pointer;
 }
-button:hover{background:#2563eb;}
+button:hover{
+    background:#2563eb;
+}
 
-.results{display:none;margin-top:30px;}
+/* RESULTS */
+.results{
+    display:none;
+    margin-top:30px;
+}
 
 .score-box{
     background:white;
@@ -102,108 +118,122 @@ button:hover{background:#2563eb;}
 
 <header>
     <h1>Virtual Lab: Heat Conduction</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="simulation.html">Simulation</a>
-        <a href="posttest.html">Posttest</a>
-    </nav>
 </header>
 
 <div class="container">
-<h2>Posttest: Heat Conduction Analysis</h2>
-<p>Assess your understanding after completing the simulation.</p>
+
+<h2>POSTTEST</h2>
+<p>Answer the following questions based on the simulation and theory.</p>
 
 <form id="quiz">
 
 <!-- Q1 -->
 <div class="question">
-<h3>1. What temperature profile is observed in cylindrical pipe conduction?</h3>
-<div class="option"><input type="radio" name="q1" value="A"> Linear</div>
-<div class="option"><input type="radio" name="q1" value="B"> Logarithmic</div>
-<div class="option"><input type="radio" name="q1" value="C"> Constant</div>
-<div class="option"><input type="radio" name="q1" value="D"> Exponential</div>
+<h3>
+1. Calculate the heat transfer rate for a steel pipe (k = 50 W/m·K) with inner radius 0.05 m,
+outer radius 0.07 m, length 10 m, inner temperature 200°C, and outer temperature 50°C.
+</h3>
+<div class="option"><input type="radio" name="q1" value="A"> Approximately 1.4 MW</div>
+<div class="option"><input type="radio" name="q1" value="B"> Approximately 0.7 MW</div>
+<div class="option"><input type="radio" name="q1" value="C"> Approximately 2.8 MW</div>
+<div class="option"><input type="radio" name="q1" value="D"> Approximately 5.6 kW</div>
 </div>
 
 <!-- Q2 -->
 <div class="question">
-<h3>2. If pipe length is doubled, heat transfer rate:</h3>
-<div class="option"><input type="radio" name="q2" value="A"> Doubles</div>
-<div class="option"><input type="radio" name="q2" value="B"> Halves</div>
-<div class="option"><input type="radio" name="q2" value="C"> Remains same</div>
-<div class="option"><input type="radio" name="q2" value="D"> Quadruples</div>
+<h3>
+2. A steam pipe of 8 cm diameter at 150°C is covered with a 4 cm layer of insulation (k = 0.05 W/m·K).
+If the outer surface is at 40°C, calculate the heat loss per meter per minute.
+</h3>
+<div class="option"><input type="radio" name="q2" value="A"> Approximately 95.3 W/min</div>
+<div class="option"><input type="radio" name="q2" value="B"> Approximately 286 W/min</div>
+<div class="option"><input type="radio" name="q2" value="C"> Approximately 572 W/min</div>
+<div class="option"><input type="radio" name="q2" value="D"> Approximately 1144 W/min</div>
 </div>
 
 <!-- Q3 -->
 <div class="question">
-<h3>3. Steel pipe (k=50 W/m·K, r₁=0.05 m, r₂=0.07 m, L=10 m, ΔT=150°C). Heat transfer rate?</h3>
-<div class="option"><input type="radio" name="q3" value="A"> 1.4 MW</div>
-<div class="option"><input type="radio" name="q3" value="B"> 0.7 MW</div>
-<div class="option"><input type="radio" name="q3" value="C"> 2.8 MW</div>
-<div class="option"><input type="radio" name="q3" value="D"> 5.6 kW</div>
+<h3>
+3. A copper pipe (k = 400 W/m·K) with inner diameter 5 cm and wall thickness 1 cm
+carries hot water at 90°C. If the outer surface temperature is 70°C, what is the heat loss per meter length?
+</h3>
+<div class="option"><input type="radio" name="q3" value="A"> Approximately 175 kW/m</div>
+<div class="option"><input type="radio" name="q3" value="B"> Approximately 17.5 kW/m</div>
+<div class="option"><input type="radio" name="q3" value="C"> Approximately 175 W/m</div>
+<div class="option"><input type="radio" name="q3" value="D"> Approximately 1.75 MW/m</div>
 </div>
 
 <!-- Q4 -->
 <div class="question">
-<h3>4. Larger inner radius results in:</h3>
-<div class="option"><input type="radio" name="q4" value="A"> Higher heat transfer</div>
-<div class="option"><input type="radio" name="q4" value="B"> Lower heat transfer</div>
-<div class="option"><input type="radio" name="q4" value="C"> Same heat transfer</div>
-<div class="option"><input type="radio" name="q4" value="D"> Depends only on material</div>
-</div>
-
-<!-- Q5 -->
-<div class="question">
-<h3>5. Replacing copper with glass wool causes:</h3>
-<div class="option"><input type="radio" name="q5" value="A"> Increase in heat transfer</div>
-<div class="option"><input type="radio" name="q5" value="B"> Significant decrease</div>
-<div class="option"><input type="radio" name="q5" value="C"> Linear temperature</div>
-<div class="option"><input type="radio" name="q5" value="D"> No change</div>
+<h3>
+4. An insulated steel pipe (k = 50 W/m·K) has inner radius 3 cm and outer radius 4 cm.
+It is covered with insulation (k = 0.1 W/m·K) of thickness 5 cm.
+If inner temperature is 200°C and outer surface temperature is 30°C, what is the heat loss per meter length?
+</h3>
+<div class="option"><input type="radio" name="q4" value="A"> Approximately 125 W/m</div>
+<div class="option"><input type="radio" name="q4" value="B"> Approximately 250 W/m</div>
+<div class="option"><input type="radio" name="q4" value="C"> Approximately 500 W/m</div>
+<div class="option"><input type="radio" name="q4" value="D"> Approximately 1000 W/m</div>
 </div>
 
 <button type="button" onclick="submitQuiz()">Submit Posttest</button>
 </form>
 
+<!-- RESULTS -->
 <div class="results" id="results">
+
 <div class="score-box">
-<h3>Posttest Results</h3>
-<div class="score" id="score"></div>
+    <h3>Posttest Results</h3>
+    <div class="score" id="score"></div>
 </div>
+
 <div id="details"></div>
 
 <div class="recommend">
-<b>Recommendation:</b> Review Theory and re-run simulation if score is below 70%.
+<b>Learning Recommendation:</b><br>
+Revise numerical problems on cylindrical heat conduction and re-run the simulation for clarity.
 </div>
 
 <button onclick="location.reload()">Retake Posttest</button>
 </div>
+
 </div>
 
 <script>
-const answers={q1:"B",q2:"A",q3:"A",q4:"A",q5:"B"};
+const answers = {
+    q1:"A",
+    q2:"B",
+    q3:"B",
+    q4:"B"
+};
 
-const explanations={
-q1:"Cylindrical heat conduction results in logarithmic temperature distribution.",
-q2:"From Q ∝ L, doubling length doubles heat transfer.",
-q3:"Using Q = 2πkLΔT / ln(r₂/r₁) ≈ 1.4 MW.",
-q4:"Larger radius increases heat transfer area and lowers resistance.",
-q5:"Glass wool has very low thermal conductivity."
+const explanations = {
+    q1:"Using Q = 2πkL(T₁−T₂)/ln(r₂/r₁), the heat transfer rate comes out to approximately 1.4 MW.",
+    q2:"Including insulation resistance gives heat loss ≈ 286 W per minute.",
+    q3:"Substituting values in cylindrical conduction formula gives ≈ 17.5 kW/m.",
+    q4:"Total thermal resistance of steel + insulation gives heat loss ≈ 250 W/m."
 };
 
 function submitQuiz(){
-let score=0, details="";
-for(let i=1;i<=5;i++){
-    let q="q"+i;
-    let sel=document.querySelector(`input[name="${q}"]:checked`);
-    if(sel && sel.value===answers[q]){
-        score++;
-        details+=`<div class="correct"><b>Q${i}: Correct</b><br>${explanations[q]}</div>`;
-    }else{
-        details+=`<div class="incorrect"><b>Q${i}: Incorrect</b><br>${explanations[q]}</div>`;
+    let score = 0;
+    let total = 4;
+    let detailsHTML = "";
+
+    for(let i=1;i<=4;i++){
+        let q = "q"+i;
+        let selected = document.querySelector(`input[name="${q}"]:checked`);
+        if(selected && selected.value === answers[q]){
+            score++;
+            detailsHTML += `<div class="correct"><b>Q${i}: Correct</b><br>${explanations[q]}</div>`;
+        }else{
+            detailsHTML += `<div class="incorrect"><b>Q${i}: Incorrect</b><br><b>Correct Answer:</b> ${answers[q]}<br>${explanations[q]}</div>`;
+        }
     }
-}
-document.getElementById("score").innerText=`${Math.round(score/5*100)}%`;
-document.getElementById("details").innerHTML=details;
-document.getElementById("results").style.display="block";
+
+    document.getElementById("score").innerText = `${Math.round(score/total*100)}% Score`;
+    document.getElementById("details").innerHTML = detailsHTML;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo(0,document.body.scrollHeight);
 }
 </script>
 
