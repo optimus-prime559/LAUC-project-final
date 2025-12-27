@@ -96,6 +96,7 @@ button:hover{
     border-left:5px solid #22c55e;
     padding:12px;
     border-radius:8px;
+ Fletcher
     margin-bottom:10px;
 }
 
@@ -131,35 +132,35 @@ button:hover{
 <div class="container">
 
 <h2>Pretest: Heat Conduction Concepts</h2>
-<p>Test your existing knowledge of heat conduction before proceeding.</p>
+<p>Answer the following questions to assess your understanding before using the simulation.</p>
 
 <form id="quiz">
 
 <!-- Q1 -->
 <div class="question">
-<h3>1. For radial heat conduction in cylindrical pipes, the temperature distribution is:</h3>
-<div class="option"><input type="radio" name="q1" value="A"> Linear</div>
-<div class="option"><input type="radio" name="q1" value="B"> Logarithmic</div>
-<div class="option"><input type="radio" name="q1" value="C"> Exponential</div>
-<div class="option"><input type="radio" name="q1" value="D"> Sinusoidal</div>
+<h3>1. Given a temperature distribution T(x) = 100 − 50x² along a rod, what is the temperature gradient dT/dx at x = 2?</h3>
+<div class="option"><input type="radio" name="q1" value="A"> −100</div>
+<div class="option"><input type="radio" name="q1" value="B"> −200</div>
+<div class="option"><input type="radio" name="q1" value="C"> 100</div>
+<div class="option"><input type="radio" name="q1" value="D"> 0</div>
 </div>
 
 <!-- Q2 -->
 <div class="question">
-<h3>2. In cylindrical coordinates, heat conduction occurs in which direction?</h3>
-<div class="option"><input type="radio" name="q2" value="A"> Linear (x-direction)</div>
-<div class="option"><input type="radio" name="q2" value="B"> Radial (r-direction)</div>
-<div class="option"><input type="radio" name="q2" value="C"> Angular (θ-direction)</div>
-<div class="option"><input type="radio" name="q2" value="D"> Axial (z-direction)</div>
+<h3>2. For steady-state 1D heat conduction in a homogeneous medium with no internal heat generation, the temperature distribution is obtained from d²T/dx² = 0. What is the general solution?</h3>
+<div class="option"><input type="radio" name="q2" value="A"> T(x) = Ax² + B</div>
+<div class="option"><input type="radio" name="q2" value="B"> T(x) = Aeˣ + B</div>
+<div class="option"><input type="radio" name="q2" value="C"> T(x) = Ax + B</div>
+<div class="option"><input type="radio" name="q2" value="D"> T(x) = A ln(x) + B</div>
 </div>
 
 <!-- Q3 -->
 <div class="question">
-<h3>3. For heat conduction through a cylindrical pipe, the heat transfer area:</h3>
-<div class="option"><input type="radio" name="q3" value="A"> Remains constant</div>
-<div class="option"><input type="radio" name="q3" value="B"> Decreases with radius</div>
-<div class="option"><input type="radio" name="q3" value="C"> Increases with radius</div>
-<div class="option"><input type="radio" name="q3" value="D"> Is zero at the center</div>
+<h3>3. A copper rod of length L = 1 m has fixed temperatures T(0) = 100°C and T(1) = 1000°C. Using T(x) = Ax + B, find the temperature distribution.</h3>
+<div class="option"><input type="radio" name="q3" value="A"> T(x) = 100x + 1000</div>
+<div class="option"><input type="radio" name="q3" value="B"> T(x) = 900x + 100</div>
+<div class="option"><input type="radio" name="q3" value="C"> T(x) = 1000x − 100</div>
+<div class="option"><input type="radio" name="q3" value="D"> T(x) = 900x − 100</div>
 </div>
 
 <!-- Q4 -->
@@ -173,7 +174,7 @@ button:hover{
 
 <!-- Q5 -->
 <div class="question">
-<h3>5. Which of the following is a key difference between plane wall and cylindrical pipe conduction?</h3>
+<h3>5. Which is a key difference between heat conduction in a plane wall and a cylindrical pipe?</h3>
 <div class="option"><input type="radio" name="q5" value="A"> Heat flow direction</div>
 <div class="option"><input type="radio" name="q5" value="B"> Temperature distribution</div>
 <div class="option"><input type="radio" name="q5" value="C"> Area variation with position</div>
@@ -194,7 +195,7 @@ button:hover{
 
 <div class="recommend">
 <b>Learning Recommendation:</b><br>
-Review the Theory section before proceeding to the simulation.
+Revise the Theory section before proceeding to the simulation.
 </div>
 
 <button onclick="location.reload()">Retake Pretest</button>
@@ -204,19 +205,19 @@ Review the Theory section before proceeding to the simulation.
 
 <script>
 const answers = {
-    q1:"B",
-    q2:"B",
-    q3:"C",
+    q1:"A",
+    q2:"C",
+    q3:"B",
     q4:"B",
     q5:"D"
 };
 
 const explanations = {
-    q1:"Temperature distribution in cylindrical heat conduction is logarithmic.",
-    q2:"Heat flows radially from inner surface to outer surface in cylindrical pipes.",
-    q3:"Heat transfer area A(r) = 2πrL increases with radius.",
-    q4:"Correct formula: Q = 2πkL(T₁ − T₂)/ln(r₂/r₁).",
-    q5:"Plane walls and cylindrical pipes differ in flow direction, temperature profile, and area variation."
+    q1:"T(x) = 100 − 50x² ⇒ dT/dx = −100x. At x = 2, dT/dx = −200.",
+    q2:"Integrating d²T/dx² = 0 twice gives T(x) = Ax + B.",
+    q3:"Using boundary conditions: B = 100 and A = (1000−100)/1 = 900 ⇒ T(x) = 900x + 100.",
+    q4:"For steady-state radial conduction in a cylindrical pipe, Q = 2πkL(T₁ − T₂)/ln(r₂/r₁).",
+    q5:"Plane walls have linear heat flow and constant area, while cylindrical pipes have radial flow, logarithmic temperature variation, and area increasing with radius."
 };
 
 function submitQuiz(){
@@ -231,7 +232,7 @@ function submitQuiz(){
             score++;
             detailsHTML += `<div class="correct"><b>Q${i}: Correct</b><br>${explanations[q]}</div>`;
         }else{
-            detailsHTML += `<div class="incorrect"><b>Q${i}: Incorrect</b><br>Correct answer: ${answers[q]}<br>${explanations[q]}</div>`;
+            detailsHTML += `<div class="incorrect"><b>Q${i}: Incorrect</b><br><b>Correct answer:</b> ${answers[q]}<br>${explanations[q]}</div>`;
         }
     }
 
