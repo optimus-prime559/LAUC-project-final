@@ -256,25 +256,7 @@ const timeChartCanvas=document.getElementById("timeChart");
 });
 
 calculate();
-    // AUTO-FILL FROM URL
-function autofillFromURL(){
-const params = new URLSearchParams(window.location.search);
 
-if(params.has("r1")) document.getElementById("r1").value = params.get("r1");
-if(params.has("r2")) document.getElementById("r2").value = params.get("r2");
-if(params.has("k")) document.getElementById("k").value = params.get("k");
-if(params.has("T1")) document.getElementById("T1").value = params.get("T1");
-if(params.has("T2")) document.getElementById("T2").value = params.get("T2");
-if(params.has("L")) document.getElementById("L").value = params.get("L");
-
-// Optional auto-calc
-if(params.toString() !== ""){
-    setTimeout(() => calculate(), 300);
-}
-}
-
-// Run on load
-window.onload = autofillFromURL;
 </script>
 
 </body>
