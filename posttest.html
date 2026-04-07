@@ -24,19 +24,22 @@ nav a{
     text-decoration:none;
     font-weight:600;
 }
+
 .container{
-    max-width:1000px;
+    max-width:800px;
     margin:auto;
     padding:30px 20px;
 }
+
 .question{
     background:#ffffff;
     padding:20px;
     border-radius:12px;
-    margin-bottom:18px;
     box-shadow:0 6px 14px rgba(0,0,0,0.1);
 }
-.option{ margin:8px 0; }
+
+.option{ margin:10px 0; }
+
 button{
     background:#1e3a8a;
     color:white;
@@ -45,43 +48,44 @@ button{
     border-radius:8px;
     font-size:15px;
     cursor:pointer;
+    margin-top:10px;
 }
 button:hover{ background:#2563eb; }
-.results{ display:none; margin-top:30px; }
-.score-box{
+
+.feedback{
+    margin-top:15px;
+    padding:12px;
+    border-radius:8px;
+}
+
+.correct{
+    background:#e6f7ef;
+    border-left:5px solid #22c55e;
+}
+
+.incorrect{
+    background:#fdecea;
+    border-left:5px solid #ef4444;
+}
+
+.sim-link{
+    display:inline-block;
+    margin-top:10px;
+    background:#f59e0b;
+    color:white;
+    padding:8px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:bold;
+}
+.sim-link:hover{ background:#d97706; }
+
+#resultBox{
+    display:none;
     background:white;
     padding:20px;
     border-radius:12px;
     box-shadow:0 6px 14px rgba(0,0,0,0.15);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-.score{
-    font-size:22px;
-    font-weight:bold;
-    color:#1e3a8a;
-}
-.correct{
-    background:#e6f7ef;
-    border-left:5px solid #22c55e;
-    padding:12px;
-    border-radius:8px;
-    margin-bottom:10px;
-}
-.incorrect{
-    background:#fdecea;
-    border-left:5px solid #ef4444;
-    padding:12px;
-    border-radius:8px;
-    margin-bottom:10px;
-}
-.recommend{
-    background:#fff7ed;
-    border-left:5px solid #f59e0b;
-    padding:14px;
-    border-radius:10px;
     margin-top:20px;
 }
 </style>
@@ -101,108 +105,126 @@ button:hover{ background:#2563eb; }
 <div class="container">
 
 <h2>Posttest: Heat Conduction Analysis</h2>
-<p>Assess your understanding after completing the simulation.</p>
+<p>Answer one question at a time.</p>
 
-<form id="quiz">
+<div id="quizBox"></div>
 
-<!-- QUESTIONS (unchanged) -->
-<!-- Q1 -->
-<div class="question">
-<h3>1. Calculate the heat transfer rate for a steel pipe (k = 50 W/m·K) with r₁ = 0.05 m, r₂ = 0.07 m, L = 10 m, T₁ = 200°C, T₂ = 50°C.</h3>
-<div class="option"><input type="radio" name="q1" value="A"> Approximately 1.4 MW</div>
-<div class="option"><input type="radio" name="q1" value="B"> Approximately 0.7 MW</div>
-<div class="option"><input type="radio" name="q1" value="C"> Approximately 2.8 MW</div>
-<div class="option"><input type="radio" name="q1" value="D"> Approximately 5.6 kW</div>
-</div>
-
-<!-- Q2 -->
-<div class="question">
-<h3>2. A steam pipe of 8 cm diameter at 150°C is insulated with 4 cm insulation (k = 0.05 W/m·K). Outer surface is 40°C. Heat loss per meter per minute is:</h3>
-<div class="option"><input type="radio" name="q2" value="A"> 95.3 W/min</div>
-<div class="option"><input type="radio" name="q2" value="B"> 286 W/min</div>
-<div class="option"><input type="radio" name="q2" value="C"> 572 W/min</div>
-<div class="option"><input type="radio" name="q2" value="D"> 1144 W/min</div>
-</div>
-
-<!-- Q3 -->
-<div class="question">
-<h3>3. A copper pipe (k = 400 W/m·K) with inner diameter 5 cm and wall thickness 1 cm carries water at 90°C. Outer surface is at 70°C. Heat loss per meter is:</h3>
-<div class="option"><input type="radio" name="q3" value="A"> 175 kW/m</div>
-<div class="option"><input type="radio" name="q3" value="B"> 17.5 kW/m</div>
-<div class="option"><input type="radio" name="q3" value="C"> 175 W/m</div>
-<div class="option"><input type="radio" name="q3" value="D"> 1.75 MW/m</div>
-</div>
-
-<!-- Q4 -->
-<div class="question">
-<h3>4. An insulated steel pipe (k = 50 W/m·K) with r₁ = 3 cm, r₂ = 4 cm and insulation thickness 5 cm (k = 0.1 W/m·K). T₁ = 200°C, T₂ = 30°C. Heat loss per meter is:</h3>
-<div class="option"><input type="radio" name="q4" value="A"> 125 W/m</div>
-<div class="option"><input type="radio" name="q4" value="B"> 250 W/m</div>
-<div class="option"><input type="radio" name="q4" value="C"> 500 W/m</div>
-<div class="option"><input type="radio" name="q4" value="D"> 1000 W/m</div>
-</div>
-
-<button type="button" onclick="submitQuiz()">Submit Posttest</button>
-</form>
-
-<div class="results" id="results">
-<div class="score-box">
-<h3>Posttest Results</h3>
-<div class="score" id="score"></div>
-</div>
-
-<div id="details"></div>
-
-<div class="recommend">
-<b>Learning Recommendation:</b><br>
-Revise the theory and re-run the simulation for deeper understanding.
-</div>
-
-<button onclick="location.reload()">Retake Posttest</button>
+<div id="resultBox">
+<h3 id="finalScore"></h3>
+<button onclick="location.reload()">Retake Test</button>
 </div>
 
 </div>
 
 <script>
-const answers={
-q1:"A", q2:"B", q3:"B", q4:"B"
-};
+const questions=[
+{
+q:`1. Calculate the heat transfer rate for a steel pipe (k = 50 W/m·K) with r₁ = 0.05 m, r₂ = 0.07 m, L = 10 m, T₁ = 200°C, T₂ = 50°C.`,
+options:["A","B","C","D"],
+text:[
+"Approximately 1.4 MW",
+"Approximately 0.7 MW",
+"Approximately 2.8 MW",
+"Approximately 5.6 kW"
+],
+answer:"A",
+exp:`Using Fourier’s law:
+Q = (2πkL(T₁−T₂)) / ln(r₂/r₁) ≈ 1.4 MW`
+},
 
-const explanations={
-q1:`Using Fourier’s law for cylindrical pipes:
-Q = (2πkL(T₁−T₂)) / ln(r₂/r₁).
-Substituting values gives Q ≈ 1.4 × 10⁶ W = 1.4 MW.`,
+{
+q:`2. A steam pipe of 8 cm diameter at 150°C is insulated with 4 cm insulation (k = 0.05 W/m·K). Outer surface is 40°C.`,
+options:["A","B","C","D"],
+text:["95.3 W/min","286 W/min","572 W/min","1144 W/min"],
+answer:"B",
+exp:`Heat loss ≈ 286 W/min`
+},
 
-q2:`Inner radius = 0.04 m, outer radius = 0.08 m.
-Q = (2πkΔT) / ln(r₂/r₁) ≈ 4.9 W per second.
-Converting to per minute: Q ≈ 286 W/min.`,
+{
+q:`3. A copper pipe (k = 400 W/m·K) with inner diameter 5 cm and wall thickness 1 cm.`,
+options:["A","B","C","D"],
+text:["175 kW/m","17.5 kW/m","175 W/m","1.75 MW/m"],
+answer:"B",
+exp:`Heat loss ≈ 17.5 kW/m`
+},
 
-q3:`Using cylindrical conduction formula:
-Q = (2πkΔT) / ln(r₂/r₁).
-Substituting values gives Q ≈ 17.5 kW per meter length.`,
-
-q4:`Total thermal resistance = resistance of steel + insulation.
-Q = ΔT / R_total.
-After calculation, heat loss ≈ 250 W per meter length.`
-};
-
-function submitQuiz(){
-let score=0, details="";
-for(let i=1;i<=4;i++){
-    let q="q"+i;
-    let sel=document.querySelector(`input[name="${q}"]:checked`);
-    if(sel && sel.value===answers[q]){
-        score++;
-        details+=`<div class="correct"><b>Q${i}: Correct</b><br>${explanations[q]}</div>`;
-    }else{
-        details+=`<div class="incorrect"><b>Q${i}: Incorrect</b><br><b>Correct answer:</b> ${answers[q]}<br>${explanations[q]}</div>`;
-    }
+{
+q:`4. Insulated steel pipe with insulation layer.`,
+options:["A","B","C","D"],
+text:["125 W/m","250 W/m","500 W/m","1000 W/m"],
+answer:"B",
+exp:`Heat loss ≈ 250 W/m`
 }
-document.getElementById("score").innerText=`${Math.round(score/4*100)}% Score`;
-document.getElementById("details").innerHTML=details;
-document.getElementById("results").style.display="block";
-window.scrollTo(0,document.body.scrollHeight);
+];
+
+let index=0;
+let score=0;
+
+function loadQuestion(){
+const q=questions[index];
+
+let html=`<div class="question">
+<h3>${q.q}</h3>`;
+
+for(let i=0;i<4;i++){
+html+=`
+<div class="option">
+<input type="radio" name="opt" value="${q.options[i]}">
+${q.options[i]}. ${q.text[i]}
+</div>`;
 }
+
+html+=`<button onclick="checkAnswer()">Submit Answer</button>
+<div id="feedback"></div>
+</div>`;
+
+document.getElementById("quizBox").innerHTML=html;
+}
+
+function checkAnswer(){
+const selected=document.querySelector('input[name="opt"]:checked');
+
+if(!selected){
+alert("Select an option first");
+return;
+}
+
+const q=questions[index];
+const fb=document.getElementById("feedback");
+
+if(selected.value===q.answer){
+score++;
+fb.innerHTML=`<div class="feedback correct">
+✔ Correct!<br>${q.exp}<br>
+<button onclick="nextQuestion()">Next</button>
+</div>`;
+}
+else{
+fb.innerHTML=`<div class="feedback incorrect">
+❌ Incorrect<br>
+Correct Answer: ${q.answer}<br>
+${q.exp}<br>
+
+<a href="simulation.html" class="sim-link">Go to Simulation</a><br><br>
+
+<button onclick="nextQuestion()">Next Question</button>
+</div>`;
+}
+}
+
+function nextQuestion(){
+index++;
+if(index<questions.length){
+loadQuestion();
+}else{
+document.getElementById("quizBox").style.display="none";
+document.getElementById("resultBox").style.display="block";
+document.getElementById("finalScore").innerText=
+"Your Score: "+Math.round(score/questions.length*100)+"%";
+}
+}
+
+loadQuestion();
 </script>
 
 </body>
