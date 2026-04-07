@@ -12,12 +12,17 @@ body{
     background:#f4f8ff;
     color:#1f2937;
 }
+
 header{
     background:#1e3a8a;
     color:white;
     padding:14px 20px;
 }
-header h1{ margin:0; font-size:22px; }
+
+header h1{
+    margin:0;
+    font-size:22px;
+}
 
 nav a{
     color:white;
@@ -39,7 +44,9 @@ nav a{
     box-shadow:0 6px 14px rgba(0,0,0,0.1);
 }
 
-.option{ margin:10px 0; }
+.option{
+    margin:10px 0;
+}
 
 button{
     background:#1e3a8a;
@@ -48,8 +55,12 @@ button{
     padding:12px 20px;
     border-radius:8px;
     cursor:pointer;
+    margin-top:10px;
 }
-button:hover{ background:#2563eb; }
+
+button:hover{
+    background:#2563eb;
+}
 
 .feedback{
     margin-top:15px;
@@ -78,6 +89,10 @@ button:hover{ background:#2563eb; }
     font-weight:bold;
 }
 
+.sim-link:hover{
+    background:#d97706;
+}
+
 #resultBox{
     display:none;
     background:white;
@@ -100,6 +115,7 @@ button:hover{ background:#2563eb; }
 </header>
 
 <div class="container">
+
 <h2>Posttest: Heat Conduction Analysis</h2>
 <p>Answer one question at a time.</p>
 
@@ -109,6 +125,7 @@ button:hover{ background:#2563eb; }
 <h3 id="finalScore"></h3>
 <button onclick="location.reload()">Retake Test</button>
 </div>
+
 </div>
 
 <script>
@@ -130,9 +147,13 @@ text:[
 answer:"A",
 
 solution:`
-Q = (2πkLΔT)/ln(r₂/r₁)
+Step 1: Q = (2πkLΔT)/ln(r₂/r₁)
+Step 2: Substitute values
 = (2π×50×10×150)/ln(1.4)
-≈ 1.4 MW
+Step 3: ln(1.4)=0.336
+Q ≈ 1.4 × 10⁶ W
+
+Final Answer = 1.4 MW
 `
 },
 
@@ -145,8 +166,15 @@ text:["Approximately 95.3 W/min","Approximately 286 W/min","Approximately 572 W/
 answer:"B",
 
 solution:`
+Step 1: r₁ = 0.04 m, r₂ = 0.08 m
+Step 2: Apply formula
+
 Q ≈ 49.8 W
-Per minute = 49.8×60 ≈ 286 W/min
+Step 3: Convert to per minute
+
+49.8 × 60 ≈ 286 W/min
+
+Final Answer = 286 W/min
 `
 },
 
@@ -159,27 +187,34 @@ text:["Approximately 175 kW/m","Approximately 1.75 MW/m","Approximately 17.5 kW/
 answer:"C",
 
 solution:`
-Q ≈ 17.5 kW/m
+Step 1: r₁ = 0.025 m, r₂ = 0.035 m
+Step 2: ΔT = 20°C
+
+Q ≈ 17,500 W
+
+Final Answer = 17.5 kW/m
 `
 },
 
 {
 q:`4. An insulated steel pipe (k = 50 W/m·K) has inner radius 3 cm and outer radius 4 cm.
-It's covered with insulation (k = 0.1 W/m K) of thickness 5 cm. If inner temperature is 200°C
-and outer insulation surface is 30°C, what is the heat loss per meter length?`,
+It's covered with insulation (k = 0.1 W/m K) of thickness 5 cm.`,
 
 options:["A","B","C","D"],
 text:["Approximately 125 W/m","Approximately 250 W/m","Approximately 500 W/m","Approximately 1000 W/m"],
 answer:"B",
 
 solution:`
+Composite resistance method
+
 Q ≈ 250 W/m
+
+Final Answer = 250 W/m
 `
 },
 
 {
-q:`5. A stainless steel pipe (k = 15 W/m-K) with inner radius = 4 cm and outer radius = 5 cm is 5 meters long.
-It carries fluid at 120°C while the exterior is at 20°C. Find the total heat transfer rate.`,
+q:`5. A stainless steel pipe (k = 15 W/m-K) with inner radius = 4 cm and outer radius = 5 cm is 5 meters long.`,
 
 options:["A","B","C","D"],
 text:["14.8 kW","21.1 kW","33.5 kW","42.0 kW"],
@@ -187,35 +222,36 @@ answer:"B",
 
 solution:`
 Q ≈ 21.1 kW
+
+Final Answer = 21.1 kW
 `
 },
 
 {
-q:`6. A long cylindrical heating element (k = 20 W/ m-K) has a radius of 10 cm.
-It is wrapped in a 5 cm thick layer of asbestos (k = 0.1 W/m-K).
-The interface is at 400°C and the outside of the asbestos is at 50°C.
-Calculate the heat loss per meter.`,
+q:`6. A long cylindrical heating element (k = 20 W/m-K) radius 10 cm with insulation.`,
 
 options:["A","B","C","D"],
-text:["Approximately 256 W/m","Approximately 543 W/m","Approximately 785 W/m","Approximately 1022 W/m"],
+text:["256 W/m","543 W/m","785 W/m","1022 W/m"],
 answer:"B",
 
 solution:`
 Q ≈ 543 W/m
+
+Final Answer = 543 W/m
 `
 },
 
 {
-q:`7. A thick-walled steel cylinder (k = 50 W/m-K) has an inner radius of 5 cm and an outer radius of 10 cm.
-The inner surface is at 300°C and the outer surface is at 100°C.
-Calculate the temperature at a radius of 7.5 cm.`,
+q:`7. Thick cylinder temperature at r = 7.5 cm.`,
 
 options:["A","B","C","D"],
-text:["183.0°C","200.0°C","217.0°C","241.5°C"],
+text:["183°C","200°C","217°C","241.5°C"],
 answer:"C",
 
 solution:`
 T ≈ 217°C
+
+Final Answer = 217°C
 `
 }
 
@@ -256,24 +292,38 @@ return;
 const q = questions[index];
 const fb = document.getElementById("feedback");
 
+// 🔥 FIXED: format solution properly
+const formattedSolution = q.solution.replace(/\n/g, "<br>");
+
 if(selected.value === q.answer){
 score++;
-fb.innerHTML = `<div class="feedback correct">
+
+fb.innerHTML = `
+<div class="feedback correct">
 ✔ Correct!<br><br>
-<b>Solution:</b><br>${q.solution}
+
+<b>Detailed Solution:</b><br>
+${formattedSolution}
+
 <br><br>
 <button onclick="nextQuestion()">Next</button>
 </div>`;
 }
 else{
-fb.innerHTML = `<div class="feedback incorrect">
+fb.innerHTML = `
+<div class="feedback incorrect">
 ❌ Incorrect<br>
 Correct Answer: ${q.answer}<br><br>
-<b>Solution:</b><br>${q.solution}
+
+<b>Detailed Solution:</b><br>
+${formattedSolution}
+
 <br><br>
+
 <a href="simulation.html" class="sim-link">Go to Simulation</a>
+
 <br><br>
-<button onclick="nextQuestion()">Next</button>
+<button onclick="nextQuestion()">Next Question</button>
 </div>`;
 }
 }
