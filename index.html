@@ -9,7 +9,7 @@
 body{
     margin:0;
     font-family: "Segoe UI", Arial, sans-serif;
-    background:#eaf6ff;
+    background:linear-gradient(135deg,#eaf6ff,#dbeafe);
 }
 
 /* HEADER */
@@ -17,6 +17,7 @@ body{
     background:linear-gradient(90deg,#0b5ed7,#06b6d4);
     color:white;
     padding:25px 20px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
 }
 
 .header-content{
@@ -24,7 +25,9 @@ body{
     margin:auto;
     display:flex;
     align-items:center;
+    justify-content:center;
     gap:20px;
+    text-align:center;
 }
 
 .logo{
@@ -43,43 +46,60 @@ body{
 .title-text p{
     margin-top:6px;
     font-size:15px;
-    opacity:0.95;
+    opacity:0.9;
 }
 
 /* GRID */
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:24px;
-    padding:40px 25px;
-    max-width:1200px;
+    grid-template-columns:repeat(4, 1fr);
+    gap:25px;
+    padding:50px 20px;
+    max-width:1100px;
     margin:auto;
 }
 
 /* CARD */
 .card{
     background:rgba(255,255,255,0.75);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     border-radius:20px;
-    padding:32px 22px;
+    padding:28px 20px;
     text-align:center;
-    box-shadow:0 12px 25px rgba(0,0,0,0.15);
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
     cursor:pointer;
     transition:all 0.3s ease;
+    position:relative;
+    overflow:hidden;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,0.6),transparent);
+    transition:0.5s;
+}
+
+.card:hover::before{
+    left:100%;
 }
 
 .card:hover{
-    transform:translateY(-8px) scale(1.03);
-    box-shadow:0 18px 35px rgba(0,0,0,0.25);
+    transform:translateY(-10px) scale(1.04);
+    box-shadow:0 20px 40px rgba(0,0,0,0.25);
 }
 
 .card img{
-    width:64px;
-    margin-bottom:14px;
+    width:60px;
+    margin-bottom:12px;
 }
 
 .card h3{
-    margin:10px 0 6px;
+    margin:10px 0 5px;
     color:#0b5ed7;
 }
 
@@ -89,26 +109,64 @@ body{
 }
 
 /* FOOTER */
-.footer{
-    text-align:center;
-    padding:20px;
-    font-size:13px;
-    color:#555;
+footer{
+    background: linear-gradient(90deg,#0b5ed7,#06b6d4);
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 50px;
+    border-top: 4px solid #38bdf8;
 }
 
-/* MOBILE */
-@media(max-width:600px){
-    .header-content{
-        flex-direction:column;
-        text-align:center;
+.footer-content{
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.footer-logo{
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.footer-department{
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.footer-purpose{
+    font-size: 1rem;
+    opacity: 0.85;
+    max-width: 750px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.footer-copyright{
+    margin-top: 15px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:500px){
+    .grid{
+        grid-template-columns:1fr;
     }
 
-    .logo{
-        height:70px;
+    .header-content{
+        flex-direction:column;
     }
 
     .title-text h1{
-        font-size:28px;
+        font-size:26px;
     }
 }
 </style>
@@ -128,7 +186,7 @@ body{
     </div>
 </div>
 
-<!-- CARDS -->
+<!-- GRID -->
 <div class="grid">
 
     <div class="card" onclick="location.href='aim.html'">
@@ -144,15 +202,10 @@ body{
     </div>
 
     <div class="card" onclick="location.href='pretest.html'">
-    <img 
-      src="https://img.icons8.com/fluency/96/test.png"
-      alt="Pretest"
-      style="width:64px;height:64px;"
-    >
-    <h3>Pretest</h3>
-    <p>Check prior knowledge</p>
-</div>
-
+        <img src="https://img.icons8.com/fluency/96/test.png">
+        <h3>Pretest</h3>
+        <p>Check prior knowledge</p>
+    </div>
 
     <div class="card" onclick="location.href='simulation.html'">
         <img src="https://img.icons8.com/color/96/test-tube.png">
@@ -187,10 +240,28 @@ body{
 </div>
 
 <!-- FOOTER -->
-<div class="footer">
-    Virtual Lab Project – Heat Conduction using Fourier’s Law  
-    <br>Pimpri Chinchwad College of Engineering (PCCOE)
-</div>
+<footer>
+    <div class="footer-content">
+
+        <div class="footer-logo">
+            Virtual Lab: Heat Conduction
+        </div>
+
+        <div class="footer-department">
+            Department of Applied Sciences & Humanities
+        </div>
+
+        <div class="footer-purpose">
+            This virtual laboratory helps students understand heat conduction 
+            using Fourier’s Law through simulations, tests, and interactive learning.
+        </div>
+
+        <div class="footer-copyright">
+            © 2026 Pimpri Chinchwad College of Engineering (PCCOE)
+        </div>
+
+    </div>
+</footer>
 
 </body>
 </html>
