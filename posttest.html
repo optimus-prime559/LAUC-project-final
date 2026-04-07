@@ -78,6 +78,272 @@ button:hover{ background:#2563eb; }
     text-decoration:none;
     font-weight:bold;
 }
+
+#resultBox{
+    display:none;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.15);
+    margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Virtual Lab: Heat Conduction</h1>
+<nav>
+    <a href="index.html">Home</a>
+    <a href="simulation.html">Simulation</a>
+    <a href="posttest.html">Posttest</a>
+</nav>
+</header>
+
+<div class="container">
+
+<h2>Posttest: Heat Conduction Analysis</h2>
+<p>Answer one question at a time.</p>
+
+<div id="quizBox"></div>
+
+<div id="resultBox">
+<h3 id="finalScore"></h3>
+<button onclick="location.reload()">Retake Test</button>
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+q:`1. Calculate the heat transfer rate for a steel pipe (k = 50 W/m-K) with inner radius 0.05 m, outer radius 0.07 m, length 10 m, inner temperature 200°C, outer temperature 50°C.`,
+options:["A","B","C","D"],
+text:["Approximately 1.4 MW","Approximately 0.7 MW","Approximately 2.8 MW","Approximately 5.6 kW"],
+answer:"A",
+solution:`
+Q = (2πkL(T₁−T₂)) / ln(r₂/r₁)
+
+= (2π × 50 × 10 × 150) / ln(0.07/0.05)
+
+ln(1.4) ≈ 0.336
+
+Q ≈ 1.4 × 10⁶ W
+
+Final Answer = 1.4 MW
+`
+},
+
+{
+q:`2. Steam pipe with insulation heat loss.`,
+options:["A","B","C","D"],
+text:["95.3 W/min","286 W/min","572 W/min","1144 W/min"],
+answer:"B",
+solution:`
+r₁ = 0.04 m, r₂ = 0.08 m
+
+Q ≈ 49.8 W
+
+Per minute = 49.8 × 60 ≈ 286 W/min
+
+Final Answer = 286 W/min
+`
+},
+
+{
+q:`3. Copper pipe heat loss.`,
+options:["A","B","C","D"],
+text:["175 kW/m","1.75 MW/m","17.5 kW/m","175 MW/m"],
+answer:"C",
+solution:`
+Q ≈ 17,500 W
+
+Final Answer = 17.5 kW/m
+`
+},
+
+{
+q:`4. Insulated steel pipe.`,
+options:["A","B","C","D"],
+text:["125 W/m","250 W/m","500 W/m","1000 W/m"],
+answer:"B",
+solution:`
+Using composite resistance:
+
+Q ≈ 250 W/m
+
+Final Answer = 250 W/m
+`
+},
+
+{
+q:`5. Stainless steel pipe heat transfer.`,
+options:["A","B","C","D"],
+text:["14.8 kW","21.1 kW","33.5 kW","42.0 kW"],
+answer:"B",
+solution:`
+Q ≈ 21.1 kW
+
+Final Answer = 21.1 kW
+`
+},
+
+{
+q:`6. Cylindrical heater with insulation.`,
+options:["A","B","C","D"],
+text:["256 W/m","543 W/m","785 W/m","1022 W/m"],
+answer:"B",
+solution:`
+Q ≈ 543 W/m
+
+Final Answer = 543 W/m
+`
+},
+
+{
+q:`7. Temperature in thick cylinder.`,
+options:["A","B","C","D"],
+text:["183°C","200°C","217°C","241.5°C"],
+answer:"C",
+solution:`
+T ≈ 217°C
+
+Final Answer = 217°C
+`
+}
+
+];
+
+let index = 0;
+let score = 0;
+
+function loadQuestion(){
+const q = questions[index];
+
+let html = `<div class="question">
+<h3>${q.q}</h3>`;
+
+for(let i=0;i<4;i++){
+html += `
+<div class="option">
+<input type="radio" name="opt" value="${q.options[i]}">
+${q.options[i]}. ${q.text[i]}
+</div>`;
+}
+
+html += `<button onclick="checkAnswer()">Submit Answer</button>
+<div id="feedback"></div>
+</div>`;
+
+document.getElementById("quizBox").innerHTML = html;
+}
+
+function checkAnswer(){
+const selected = document.querySelector('input[name="opt"]:checked');
+
+if(!selected){
+alert("Select an option first");
+return;
+}
+
+const q = questions[index];
+const fb = document.getElementById("feedback");
+
+if(selected.value === q.answer){
+score++;
+
+fb.innerHTML = `
+<div class="feedback correct">
+✔ Correct!<br><br>
+<b>Detailed Solution:</b><br>
+${q.solution}
+<br><br>
+<button onclick="nextQuestion()">Next</button>
+</div>`;
+}
+else{
+fb.innerHTML = `
+<div class="feedback incorrect">
+❌ Incorrect<br>
+Correct Answer: ${q.answer}<br><br>
+
+<b>Detailed Solution:</b><br>
+${q.solution}
+
+<br><br>
+Redirecting to simulation...
+</div>`;
+
+setTimeout(()=>{
+window.location.href = "simulation.html";
+},3000);
+}
+}
+
+function nextQuestion(){
+index++;
+if(index < questions.length){
+loadQuestion();
+}else{
+document.getElementById("quizBox").style.display="none";
+document.getElementById("resultBox").style.display="block";
+document.getElementById("finalScore").innerText =
+"Your Score: "+Math.round(score/questions.length*100)+"%";
+}
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>    border-radius:12px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.1);
+}
+
+.option{ margin:10px 0; }
+
+button{
+    background:#1e3a8a;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    font-size:15px;
+    cursor:pointer;
+    margin-top:10px;
+}
+button:hover{ background:#2563eb; }
+
+.feedback{
+    margin-top:15px;
+    padding:12px;
+    border-radius:8px;
+}
+
+.correct{
+    background:#e6f7ef;
+    border-left:5px solid #22c55e;
+}
+
+.incorrect{
+    background:#fdecea;
+    border-left:5px solid #ef4444;
+}
+
+.sim-link{
+    display:inline-block;
+    margin-top:10px;
+    background:#f59e0b;
+    color:white;
+    padding:8px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:bold;
+}
 .sim-link:hover{ background:#d97706; }
 
 #resultBox{
